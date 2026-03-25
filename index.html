@@ -911,6 +911,7 @@ function loadHistory(){
                     '<span class="badge badge-kinder">어린이집</span>';
         const time=r.startTime&&r.endTime?`${r.startTime}~${r.endTime}`:'';
         const people=r._type==='kinder'?`교사 ${r.teacherCount}명 / 어린이 ${r.childCount}명`:`어른 ${r.adultCount}명 / 아이 ${r.kidCount}명`;
+        const rJson=JSON.stringify(r).replace(/'/g,"&#39;");
         return `<div class="rec-card">
           <div class="rec-header"><span class="rec-date">${ds} ${r.day||''}</span>${badge}</div>
           <div class="rec-info">
@@ -919,6 +920,10 @@ function loadHistory(){
             ${r.phone?`<div>📞 ${r.phone}</div>`:''}
             ${r.memo?`<div>📝 ${r.memo}</div>`:''}
             ${r.staff?`<div>담당: ${r.staff}</div>`:''}
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button onclick="openEdit('${encodeURIComponent(JSON.stringify(r))}')" style="flex:1;font-size:13px;padding:9px;border-radius:8px;border:1px solid var(--primary-mid);background:var(--primary-light);color:var(--primary);cursor:pointer;font-family:inherit;font-weight:500;">✏️ 수정</button>
+            <button onclick="cancelRes('${r.date}','${r.name}','${r.status||''}')" style="flex:1;font-size:13px;padding:9px;border-radius:8px;border:1px solid var(--red-mid);background:var(--red-light);color:var(--red);cursor:pointer;font-family:inherit;font-weight:500;">❌ 취소</button>
           </div>
         </div>`;
       }).join('');
@@ -1143,7 +1148,8 @@ function cancelReservation(date, name){
 </div>
 
 <script>
-function openEdit(r){
+function openEdit(encoded){
+  const r=JSON.parse(decodeURIComponent(encoded));
   document.getElementById('edit-date').value=r.date||'';
   document.getElementById('edit-day').value=r.day||'월요일';
   document.getElementById('edit-start').value=r.startTime||'10:00';
