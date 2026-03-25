@@ -63,6 +63,13 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .notice-blue{background:var(--primary-light);border-left:3px solid var(--primary-mid);color:var(--primary);}
 .notice-green{background:var(--green-light);border-left:3px solid var(--green-mid);color:var(--green);}
 .notice-purple{background:var(--purple-light);border-left:3px solid var(--purple-mid);color:var(--purple);}
+.modal-bg{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:200;display:flex;align-items:center;justify-content:center;}
+.modal{background:#fff;border-radius:var(--radius);padding:20px;width:90%;max-width:480px;max-height:90vh;overflow-y:auto;}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:14px;color:var(--primary);}
+.modal-btn-row{display:flex;gap:8px;margin-top:14px;}
+.modal-btn{flex:1;font-size:14px;padding:12px;border-radius:var(--radius-sm);border:none;cursor:pointer;font-family:inherit;font-weight:500;}
+.modal-btn-save{background:var(--green-mid);color:#fff;}
+.modal-btn-cancel{background:var(--gray-bg);color:var(--muted);border:1px solid var(--border);}
 </style>
 </head>
 <body>
@@ -927,6 +934,291 @@ const today=new Date().toISOString().split('T')[0];
 });
 
 genWait();
+</script>
+
+<!-- 수정 모달 -->
+<div id="edit-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:200;overflow-y:auto;">
+  <div style="max-width:480px;margin:20px auto;background:#fff;border-radius:var(--radius);padding:20px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:700;">예약 수정</div>
+      <button onclick="closeEdit()" style="font-size:20px;background:none;border:none;cursor:pointer;color:var(--muted);">✕</button>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="field"><label>날짜</label><input type="date" id="edit-date" onchange="editAutoDay()"/></div>
+      <div class="field"><label>요일</label><select id="edit-day">
+        <option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option>
+      </select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="field"><label>시작 시간</label><select id="edit-start"></select></div>
+      <div class="field"><label>종료 시간</label><select id="edit-end"></select></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="field"><label>어린이/단체 이름</label><input type="text" id="edit-name"/></div>
+      <div class="field"><label>단체명</label><input type="text" id="edit-booker"/></div>
+    </div>
+    <div style="margin-bottom:10px;">
+      <div class="field"><label>전화번호</label><input type="text" id="edit-phone" inputmode="tel"/></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px;">
+      <div class="field"><label>어른 인원</label><select id="edit-adult"></select></div>
+      <div class="field"><label>아이 인원</label><select id="edit-kid"></select></div>
+    </div>
+    <div style="margin-bottom:16px;">
+      <div class="field"><label>특이사항</label><textarea id="edit-memo" rows="2"></textarea></div>
+    </div>
+    <input type="hidden" id="edit-old-date"/>
+    <input type="hidden" id="edit-old-name"/>
+    <input type="hidden" id="edit-category"/>
+    <input type="hidden" id="edit-status"/>
+    <button onclick="saveEdit()" style="width:100%;padding:14px;font-size:15px;font-weight:500;border:none;border-radius:var(--radius-sm);background:var(--primary);color:#fff;cursor:pointer;font-family:inherit;">수정 저장</button>
+    <div id="edit-save-msg" style="font-size:12px;text-align:center;margin-top:8px;"></div>
+  </div>
+</div>
+
+<script>
+// 시간 옵션 생성
+function makeTimeOpts(selId, val){
+  const sel=document.getElementById(selId);
+  sel.innerHTML='';
+  for(let h=10;h<=20;h++){
+    const hh=String(h).padStart(2,'0');
+    const label=(h<12?'오전 ':h===12?'오후 ':'오후 ')+(h<=12?h:h-12)+'시';
+    const opt=document.createElement('option');
+    opt.value=hh+':00';
+    opt.textContent=label;
+    if(hh+':00'===val)opt.selected=true;
+    sel.appendChild(opt);
+  }
+}
+function makeCountOpts(selId, max, val){
+  const sel=document.getElementById(selId);
+  sel.innerHTML='';
+  for(let i=0;i<=max;i++){
+    const opt=document.createElement('option');
+    opt.value=i;opt.textContent=i+'명';
+    if(i===parseInt(val))opt.selected=true;
+    sel.appendChild(opt);
+  }
+}
+
+function openEdit(r){
+  if(typeof r==='string')r=JSON.parse(r);
+  document.getElementById('edit-date').value=r.date||'';
+  document.getElementById('edit-day').value=r.day||'월요일';
+  makeTimeOpts('edit-start', r.startTime||'10:00');
+  makeTimeOpts('edit-end', r.endTime||'11:00');
+  document.getElementById('edit-name').value=r.name||'';
+  document.getElementById('edit-booker').value=r.booker||'';
+  document.getElementById('edit-phone').value=r.phone||'';
+  makeCountOpts('edit-adult', 20, r.adultCount||0);
+  makeCountOpts('edit-kid', 100, r.kidCount||0);
+  document.getElementById('edit-memo').value=r.memo||'';
+  document.getElementById('edit-old-date').value=r.date||'';
+  document.getElementById('edit-old-name').value=r.name||'';
+  document.getElementById('edit-category').value=r.category||'생일/단체';
+  document.getElementById('edit-status').value=r.status||'확정';
+  document.getElementById('edit-modal').style.display='block';
+  document.getElementById('edit-save-msg').textContent='';
+}
+
+function closeEdit(){
+  document.getElementById('edit-modal').style.display='none';
+}
+
+function editAutoDay(){
+  const v=document.getElementById('edit-date').value;
+  if(!v)return;
+  const d=new Date(v);
+  const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  document.getElementById('edit-day').value=days[d.getDay()];
+}
+
+function saveEdit(){
+  const oldDate=document.getElementById('edit-old-date').value;
+  const oldName=document.getElementById('edit-old-name').value;
+  const r={
+    date:document.getElementById('edit-date').value,
+    day:document.getElementById('edit-day').value,
+    startTime:document.getElementById('edit-start').value,
+    endTime:document.getElementById('edit-end').value,
+    name:document.getElementById('edit-name').value,
+    booker:document.getElementById('edit-booker').value,
+    phone:document.getElementById('edit-phone').value,
+    category:document.getElementById('edit-category').value,
+    status:document.getElementById('edit-status').value,
+    adultCount:document.getElementById('edit-adult').value,
+    kidCount:document.getElementById('edit-kid').value,
+    memo:document.getElementById('edit-memo').value,
+  };
+  const msgEl=document.getElementById('edit-save-msg');
+  msgEl.textContent='저장 중...';
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
+    type:'update_reservation',
+    oldDate:oldDate, oldName:oldName,
+    reservation:r
+  })})
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==='ok'){
+      msgEl.textContent='✓ 수정됐어요!';
+      msgEl.style.color='var(--green)';
+      setTimeout(()=>{closeEdit();loadHistory();},1000);
+    }
+  })
+  .catch(()=>{
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+      type:'update_reservation',oldDate:oldDate,oldName:oldName,reservation:r
+    })}).then(()=>{
+      msgEl.textContent='✓ 수정됐어요!';
+      msgEl.style.color='var(--green)';
+      setTimeout(()=>{closeEdit();loadHistory();},1000);
+    });
+  });
+}
+
+function cancelReservation(date, name){
+  if(!confirm(`♡${name} (${date}) 예약을 취소할까요?\n취소 기록으로 이동됩니다.`))return;
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
+    type:'cancel_reservation', date:date, name:name
+  })})
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==='ok'){alert('취소 처리됐어요!');loadHistory();}
+  })
+  .catch(()=>{
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+      type:'cancel_reservation',date:date,name:name
+    })}).then(()=>{alert('취소 처리됐어요!');loadHistory();})
+    .catch(()=>alert('취소 실패. 다시 시도해주세요.'));
+  });
+}
+</script>
+<!-- 수정 모달 -->
+<div class="modal-bg" id="edit-modal" style="display:none;">
+  <div class="modal">
+    <div class="modal-title">✏️ 예약 수정</div>
+    <div class="g2" style="margin-bottom:10px;">
+      <div class="field"><label>날짜</label><input type="date" id="edit-date" onchange="editAutoDay()"/></div>
+      <div class="field"><label>요일</label><select id="edit-day">
+        <option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option>
+      </select></div>
+    </div>
+    <div class="g2" style="margin-bottom:10px;">
+      <div class="field"><label>시작 시간</label><select id="edit-start">
+        <option value="10:00">오전 10시</option><option value="11:00">오전 11시</option>
+        <option value="12:00">오후 12시</option><option value="13:00">오후 1시</option>
+        <option value="14:00">오후 2시</option><option value="15:00">오후 3시</option>
+        <option value="16:00">오후 4시</option><option value="17:00">오후 5시</option>
+        <option value="18:00">오후 6시</option><option value="19:00">오후 7시</option>
+        <option value="20:00">오후 8시</option>
+      </select></div>
+      <div class="field"><label>종료 시간</label><select id="edit-end">
+        <option value="10:00">오전 10시</option><option value="11:00">오전 11시</option>
+        <option value="12:00">오후 12시</option><option value="13:00">오후 1시</option>
+        <option value="14:00">오후 2시</option><option value="15:00">오후 3시</option>
+        <option value="16:00">오후 4시</option><option value="17:00">오후 5시</option>
+        <option value="18:00">오후 6시</option><option value="19:00">오후 7시</option>
+        <option value="20:00">오후 8시</option>
+      </select></div>
+    </div>
+    <div class="g2" style="margin-bottom:10px;">
+      <div class="field"><label>어린이/단체 이름</label><input type="text" id="edit-name"/></div>
+      <div class="field"><label>단체명</label><input type="text" id="edit-booker"/></div>
+    </div>
+    <div class="g2" style="margin-bottom:10px;">
+      <div class="field"><label>전화번호</label><input type="text" id="edit-phone" inputmode="tel"/></div>
+      <div class="field"><label>담당자</label><input type="text" id="edit-staff"/></div>
+    </div>
+    <div class="field" style="margin-bottom:10px;"><label>특이사항</label><textarea id="edit-memo" rows="2"></textarea></div>
+    <input type="hidden" id="edit-old-date"/>
+    <input type="hidden" id="edit-old-name"/>
+    <input type="hidden" id="edit-status"/>
+    <input type="hidden" id="edit-category"/>
+    <div class="modal-btn-row">
+      <button class="modal-btn modal-btn-cancel" onclick="closeEdit()">취소</button>
+      <button class="modal-btn modal-btn-save" onclick="saveEdit()">저장</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openEdit(r){
+  document.getElementById('edit-date').value=r.date||'';
+  document.getElementById('edit-day').value=r.day||'월요일';
+  document.getElementById('edit-start').value=r.startTime||'10:00';
+  document.getElementById('edit-end').value=r.endTime||'10:00';
+  document.getElementById('edit-name').value=r.name||'';
+  document.getElementById('edit-booker').value=r.booker||'';
+  document.getElementById('edit-phone').value=r.phone||'';
+  document.getElementById('edit-staff').value=r.staff||'';
+  document.getElementById('edit-memo').value=r.memo||'';
+  document.getElementById('edit-old-date').value=r.date||'';
+  document.getElementById('edit-old-name').value=r.name||'';
+  document.getElementById('edit-status').value=r.status||'';
+  document.getElementById('edit-category').value=r.category||'';
+  document.getElementById('edit-modal').style.display='flex';
+}
+
+function closeEdit(){
+  document.getElementById('edit-modal').style.display='none';
+}
+
+function editAutoDay(){
+  const v=document.getElementById('edit-date').value;
+  if(!v)return;
+  const d=new Date(v);
+  const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  document.getElementById('edit-day').value=days[d.getDay()];
+}
+
+function saveEdit(){
+  const r={
+    date:document.getElementById('edit-date').value,
+    day:document.getElementById('edit-day').value,
+    startTime:document.getElementById('edit-start').value,
+    endTime:document.getElementById('edit-end').value,
+    name:document.getElementById('edit-name').value,
+    booker:document.getElementById('edit-booker').value,
+    phone:document.getElementById('edit-phone').value,
+    staff:document.getElementById('edit-staff').value,
+    memo:document.getElementById('edit-memo').value,
+    status:document.getElementById('edit-status').value,
+    category:document.getElementById('edit-category').value,
+  };
+  const oldDate=document.getElementById('edit-old-date').value;
+  const oldName=document.getElementById('edit-old-name').value;
+
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
+    type:'update_reservation',
+    oldDate,oldName,reservation:r
+  })})
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==='ok'){closeEdit();loadHistory();alert('✓ 수정됐어요!');}
+  })
+  .catch(()=>{
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+      type:'update_reservation',oldDate,oldName,reservation:r
+    })}).then(()=>{closeEdit();loadHistory();alert('✓ 수정됐어요!');});
+  });
+}
+
+function cancelRes(date,name,status){
+  if(!confirm(`♡${name} (${date}) 예약을 취소할까요?\n취소 기록으로 이동됩니다.`))return;
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
+    type:'cancel_reservation',date,name,status
+  })})
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==='ok'){loadHistory();alert('취소 처리됐어요.');}
+  })
+  .catch(()=>{
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+      type:'cancel_reservation',date,name,status
+    })}).then(()=>{loadHistory();alert('취소 처리됐어요.');});
+  });
+}
 </script>
 </body>
 </html>
