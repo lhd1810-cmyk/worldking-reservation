@@ -668,6 +668,7 @@ function switchTab(t){
   document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===map[t]));
   document.querySelectorAll('.page').forEach((el,i)=>el.classList.toggle('active',i===map[t]));
   if(t==='history')loadHistory();
+  if(t==='confirm')loadWaitList();
   window.scrollTo(0,0);
 }
 
@@ -768,6 +769,57 @@ function saveRes(type){
     .then(()=>{msgEl.textContent='✓ 저장됨';msgEl.style.color='var(--green)';})
     .catch(()=>{msgEl.textContent='저장 실패';msgEl.style.color='var(--red)';})
     .finally(()=>{btn.disabled=false;btn.textContent='구글 시트에 저장';setTimeout(()=>msgEl.textContent='',3000);});
+}
+
+let waitRecords=[];
+
+function loadWaitList(){
+  const sel=document.getElementById('wait-list-select');
+  sel.innerHTML='<option value="">불러오는 중...</option>';
+  fetch(SHEET_URL)
+    .then(r=>r.json())
+    .then(data=>{
+      waitRecords=data.waiting||[];
+      sel.innerHTML='<option value="">— 선택하세요 —</option>';
+      if(!waitRecords.length){
+        sel.innerHTML='<option value="">대기 중인 예약이 없습니다</option>';
+        return;
+      }
+      waitRecords.forEach((r,i)=>{
+        const d=new Date(r.date);
+        const days=['일','월','화','수','목','금','토'];
+        const ds=isNaN(d.getTime())?r.date:`${d.getMonth()+1}/${d.getDate()}(${days[d.getDay()]})`;
+        const opt=document.createElement('option');
+        opt.value=i;
+        opt.textContent=`${ds} ${r.startTime||''}-${r.endTime||''} ♡${r.name||''} (${r.booker||''})`;
+        sel.appendChild(opt);
+      });
+    })
+    .catch(()=>{sel.innerHTML='<option value="">불러오기 실패</option>';});
+}
+
+function loadFromWait(){
+  const idx=document.getElementById('wait-list-select').value;
+  if(idx==='')return;
+  const r=waitRecords[parseInt(idx)];
+  if(!r)return;
+  if(r.date)document.getElementById('c-date').value=r.date;
+  if(r.date){
+    const d=new Date(r.date);
+    const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+    document.getElementById('c-day').value=days[d.getDay()];
+  }
+  if(r.startTime)document.getElementById('c-start').value=r.startTime;
+  if(r.endTime)document.getElementById('c-end').value=r.endTime;
+  document.getElementById('c-kid-name').value=r.name||'';
+  document.getElementById('c-booker').value=r.booker||'';
+  document.getElementById('c-phone').value=r.phone||'';
+  document.getElementById('c-adult').value=r.adultCount||0;
+  document.getElementById('c-kid').value=r.kidCount||0;
+  document.getElementById('c-memo').value=r.memo||'';
+  document.getElementById('c-staff').value=r.staff||'';
+  genConfirm();
+  alert('✓ 대기 정보를 불러왔어요!\n내용 확인 후 저장해주세요.');
 }
 
 function loadHistory(){
