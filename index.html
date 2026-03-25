@@ -506,7 +506,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>예약자 전화번호</label><input type="text" id="k-phone" placeholder="예: 010-1234-5678" inputmode="tel" oninput="genKinder()"/></div>
-        <div class="field"><label>유치원/어린이집 구분</label><select id="k-type" onchange="genKinder()"><option>어린이집</option><option>유치원</option></select></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>교사 인원</label><select id="k-teacher" onchange="genKinder()"><option value="0">0명</option>
@@ -718,7 +717,7 @@ function genKinder(){
   const start=document.getElementById('k-start').value;
   const end=document.getElementById('k-end').value;
   const name=document.getElementById('k-name').value||'__';
-  const kinderType=document.getElementById('k-type').value||'어린이집';
+  const kinderType='어린이집/유치원';
   const teacher=document.getElementById('k-teacher').value||'0';
   const child=document.getElementById('k-child').value||'0';
   const dateStr=date?`${getDateStr(date)} ${day}`:'__월 __일 __요일';
@@ -756,7 +755,7 @@ function saveRes(type){
   }else{
     r={date:document.getElementById('k-date').value,day:document.getElementById('k-day').value,
       startTime:document.getElementById('k-start').value,endTime:document.getElementById('k-end').value,
-      name:document.getElementById('k-name').value,booker:document.getElementById('k-booker').value,phone:document.getElementById('k-phone').value,kinderType:document.getElementById('k-type').value,
+      name:document.getElementById('k-name').value,booker:document.getElementById('k-booker').value,phone:document.getElementById('k-phone').value,kinderType:'어린이집/유치원',
       category:'어린이집',status:'확정',
       teacherCount:document.getElementById('k-teacher').value,childCount:document.getElementById('k-child').value,
       memo:document.getElementById('k-memo').value,staff:document.getElementById('k-staff').value};
@@ -804,33 +803,17 @@ function loadFromWait(){
   const r=waitRecords[parseInt(idx)];
   if(!r)return;
 
-  // 날짜 처리 - 구글 시트에서 Date 객체로 올 수 있음
-  let dateStr='';
+  // 날짜 - Apps Script에서 이미 YYYY-MM-DD 문자열로 옴
   if(r.date){
+    document.getElementById('c-date').value=r.date;
     const d=new Date(r.date);
-    if(!isNaN(d.getTime())){
-      dateStr=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-    } else {
-      dateStr=String(r.date);
-    }
-    document.getElementById('c-date').value=dateStr;
-    const dd=new Date(dateStr);
     const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
-    document.getElementById('c-day').value=days[dd.getDay()];
+    document.getElementById('c-day').value=days[d.getDay()];
   }
 
-  // 시간 처리 - "10:00" 형식으로 맞추기
-  function parseTime(t){
-    if(!t)return '';
-    const s=String(t).trim();
-    if(s.match(/^\d{1,2}:\d{2}$/))return s.padStart(5,'0');
-    if(s.match(/^\d{1,2}$/))return s.padStart(2,'0')+':00';
-    return '';
-  }
-  const st=parseTime(r.startTime);
-  const et=parseTime(r.endTime);
-  if(st)document.getElementById('c-start').value=st;
-  if(et)document.getElementById('c-end').value=et;
+  // 시간 - Apps Script에서 이미 HH:MM 문자열로 옴
+  if(r.startTime)document.getElementById('c-start').value=r.startTime;
+  if(r.endTime)document.getElementById('c-end').value=r.endTime;
   document.getElementById('c-kid-name').value=r.name||'';
   document.getElementById('c-booker').value=r.booker||'';
   document.getElementById('c-phone').value=r.phone||'';
