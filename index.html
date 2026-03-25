@@ -907,8 +907,9 @@ function loadHistory(){
         return `<div class="rec-card">
           <div class="rec-header"><span class="rec-date">${ds} ${r.day||''}</span>${badge}</div>
           <div class="rec-info">
-            <div>♡ ${r.name}${r.booker?` (예약자: ${r.booker})`:''}</div>
+            <div>♡ ${r.name}${r.booker?' / '+r.booker:''}</div>
             <div>${time} · ${people}</div>
+            ${r.phone?`<div>📞 ${r.phone}</div>`:''}
             ${r.memo?`<div>📝 ${r.memo}</div>`:''}
             ${r.staff?`<div>담당: ${r.staff}</div>`:''}
           </div>
