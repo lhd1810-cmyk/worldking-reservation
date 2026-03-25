@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>월드킹 계양점 — 예약관리</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#0C447C;--primary-light:#E6F1FB;--primary-mid:#378ADD;
+  --green:#3B6D11;--green-light:#EAF3DE;--green-mid:#639922;
+  --amber:#854F0B;--amber-light:#FAEEDA;--amber-mid:#BA7517;
+  --red:#A32D2D;--red-light:#FCEBEB;--red-mid:#E24B4A;
+  --purple:#5B21B6;--purple-light:#EDE9FE;--purple-mid:#7C3AED;
+  --bg:#F4F6F9;--card:#fff;--border:rgba(0,0,0,0.08);
+  --text:#1a1a1a;--muted:#6B7280;--gray-bg:#F8F9FA;--gray-line:#F1EFE8;
+  --radius:12px;--radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;-webkit-text-size-adjust:100%;}
+.topbar{background:var(--primary);color:#fff;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.topbar-title{font-size:16px;font-weight:700;}
+.topbar-sub{font-size:10px;opacity:.7;margin-top:1px;}
+.tabs{display:flex;background:#fff;border-bottom:1px solid var(--border);overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;position:sticky;top:52px;z-index:99;}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{padding:12px 14px;font-size:13px;font-weight:500;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;flex-shrink:0;}
+.tab.active{color:var(--primary);border-bottom-color:var(--primary);}
+.page{display:none;}.page.active{display:block;}
+.container{max-width:960px;margin:0 auto;padding:14px 12px;}
+.sec{margin-bottom:16px;}
+.sec-label{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;margin-bottom:10px;}
+.g2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+.g3{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;}
+@media(min-width:600px){.g3{grid-template-columns:repeat(3,minmax(0,1fr));}}
+.field{display:flex;flex-direction:column;gap:4px;}
+.field label{font-size:12px;color:var(--muted);font-weight:500;}
+.field input,.field select,.field textarea{font-size:16px;padding:10px 12px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);color:var(--text);outline:none;font-family:inherit;-webkit-appearance:none;width:100%;}
+.field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:32px;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary-mid);background:#fff;}
+.field textarea{resize:none;line-height:1.6;}
+.divider{border:none;border-top:1px solid var(--border);margin:12px 0;}
+.msg-box{background:var(--gray-bg);border-radius:var(--radius-sm);padding:12px 14px;font-size:13px;line-height:2;color:var(--text);white-space:pre-wrap;word-break:break-all;border:1px solid var(--border);}
+.copy-btn{margin-top:8px;width:100%;font-size:15px;padding:14px;border-radius:var(--radius-sm);border:none;background:var(--primary);color:#fff;cursor:pointer;font-family:inherit;font-weight:500;}
+.copy-btn:active{opacity:.8;}
+.save-btn{width:100%;font-size:15px;padding:14px;border-radius:var(--radius-sm);border:none;background:var(--green-mid);color:#fff;cursor:pointer;font-family:inherit;font-weight:500;margin-top:8px;}
+.save-btn:active{opacity:.8;}
+.save-btn:disabled{opacity:.5;}
+.save-row{display:flex;align-items:center;gap:10px;margin-top:4px;}
+.save-msg{font-size:12px;}
+.refresh-btn{font-size:12px;padding:6px 12px;border-radius:var(--radius-sm);border:1px solid var(--primary-mid);background:transparent;color:var(--primary);cursor:pointer;font-family:inherit;}
+.placeholder{color:var(--muted);font-size:13px;text-align:center;padding:18px;}
+.rec-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 14px;margin-bottom:8px;}
+.rec-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
+.rec-date{font-size:14px;font-weight:700;}
+.rec-info{font-size:12px;color:var(--muted);line-height:1.9;}
+.badge{display:inline-block;font-size:11px;font-weight:600;padding:2px 9px;border-radius:20px;}
+.badge-wait{background:var(--amber-light);color:var(--amber);}
+.badge-confirm{background:var(--green-light);color:var(--green);}
+.badge-kinder{background:var(--purple-light);color:var(--purple);}
+.notice{border-radius:var(--radius-sm);padding:10px 13px;font-size:12px;line-height:1.6;margin-bottom:12px;}
+.notice-blue{background:var(--primary-light);border-left:3px solid var(--primary-mid);color:var(--primary);}
+.notice-green{background:var(--green-light);border-left:3px solid var(--green-mid);color:var(--green);}
+.notice-purple{background:var(--purple-light);border-left:3px solid var(--purple-mid);color:var(--purple);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div>
+    <div class="topbar-title">월드킹 계양점</div>
+    <div class="topbar-sub">예약 관리 시스템</div>
+  </div>
+</div>
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('wait')">📋 예약 대기</div>
+  <div class="tab" onclick="switchTab('confirm')">✅ 예약 확정</div>
+  <div class="tab" onclick="switchTab('kinder')">🏫 어린이집</div>
+  <div class="tab" onclick="switchTab('history')">📁 예약 기록</div>
+</div>
+
+<!-- 예약 대기 -->
+<div class="page active" id="page-wait">
+<div class="container">
+  <div class="notice notice-blue">📌 입금 전 안내 문자 — 예약금 입금 안내 후 확인되면 예약 확정 탭에서 확정 문자 발송</div>
+  <div class="sec">
+    <div class="sec-label">예약 정보</div>
+    <div class="card">
+      <div class="g3" style="margin-bottom:10px;">
+        <div class="field"><label>예약 날짜</label><input type="date" id="w-date" onchange="autoDay('w');genWait();"/></div>
+        <div class="field"><label>요일</label><select id="w-day" onchange="genWait();">
+          <option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option>
+        </select></div>
+        <div class="field" style="grid-column:span 2;"><label>담당자</label><input type="text" id="w-staff" placeholder="이름 입력" oninput="genWait()"/></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>시작 시간</label><select id="w-start" onchange="genWait()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+        <div class="field"><label>종료 시간</label><select id="w-end" onchange="genWait()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>어린이 이름</label><input type="text" id="w-kid-name" placeholder="예: 김하늘" oninput="genWait()"/></div>
+        <div class="field"><label>단체명</label><input type="text" id="w-booker" placeholder="예: 홍길동 / 해피파티" oninput="genWait()"/></div>
+      </div>
+      <div class="field" style="margin-bottom:10px;"><label>예약자 전화번호</label><input type="text" id="w-phone" placeholder="예: 010-1234-5678" inputmode="tel" oninput="genWait()"/></div>
+      <div class="g3" style="margin-bottom:10px;">
+        <div class="field"><label>파티룸 여부</label><select id="w-room" onchange="genWait()"><option>파티룸</option><option>일반</option></select></div>
+        <div class="field"><label>어른 인원</label><select id="w-adult" onchange="genWait()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option></select></div>
+        <div class="field"><label>아이 인원</label><select id="w-kid" onchange="genWait()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option>
+<option value="21">21명</option>
+<option value="22">22명</option>
+<option value="23">23명</option>
+<option value="24">24명</option>
+<option value="25">25명</option>
+<option value="26">26명</option>
+<option value="27">27명</option>
+<option value="28">28명</option>
+<option value="29">29명</option>
+<option value="30">30명</option>
+<option value="31">31명</option>
+<option value="32">32명</option>
+<option value="33">33명</option>
+<option value="34">34명</option>
+<option value="35">35명</option>
+<option value="36">36명</option>
+<option value="37">37명</option>
+<option value="38">38명</option>
+<option value="39">39명</option>
+<option value="40">40명</option>
+<option value="41">41명</option>
+<option value="42">42명</option>
+<option value="43">43명</option>
+<option value="44">44명</option>
+<option value="45">45명</option>
+<option value="46">46명</option>
+<option value="47">47명</option>
+<option value="48">48명</option>
+<option value="49">49명</option>
+<option value="50">50명</option>
+<option value="51">51명</option>
+<option value="52">52명</option>
+<option value="53">53명</option>
+<option value="54">54명</option>
+<option value="55">55명</option>
+<option value="56">56명</option>
+<option value="57">57명</option>
+<option value="58">58명</option>
+<option value="59">59명</option>
+<option value="60">60명</option>
+<option value="61">61명</option>
+<option value="62">62명</option>
+<option value="63">63명</option>
+<option value="64">64명</option>
+<option value="65">65명</option>
+<option value="66">66명</option>
+<option value="67">67명</option>
+<option value="68">68명</option>
+<option value="69">69명</option>
+<option value="70">70명</option>
+<option value="71">71명</option>
+<option value="72">72명</option>
+<option value="73">73명</option>
+<option value="74">74명</option>
+<option value="75">75명</option>
+<option value="76">76명</option>
+<option value="77">77명</option>
+<option value="78">78명</option>
+<option value="79">79명</option>
+<option value="80">80명</option>
+<option value="81">81명</option>
+<option value="82">82명</option>
+<option value="83">83명</option>
+<option value="84">84명</option>
+<option value="85">85명</option>
+<option value="86">86명</option>
+<option value="87">87명</option>
+<option value="88">88명</option>
+<option value="89">89명</option>
+<option value="90">90명</option>
+<option value="91">91명</option>
+<option value="92">92명</option>
+<option value="93">93명</option>
+<option value="94">94명</option>
+<option value="95">95명</option>
+<option value="96">96명</option>
+<option value="97">97명</option>
+<option value="98">98명</option>
+<option value="99">99명</option>
+<option value="100">100명</option></select></div>
+      </div>
+      <div class="field"><label>특이사항</label><textarea id="w-memo" rows="2" placeholder="특이사항 입력..." oninput="genWait()"></textarea></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-label">입금 전 안내 문자</div>
+    <div class="msg-box" id="w-msg">정보를 입력하면 문자가 자동 생성됩니다.</div>
+    <button class="copy-btn" id="w-copy-btn" onclick="copyMsg('w-msg','w-copy-btn')">문자 복사하기</button>
+    <div class="save-row">
+      <button class="save-btn" id="w-save-btn" onclick="saveRes('wait')">구글 시트에 저장</button>
+      <span class="save-msg" id="w-save-msg"></span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 예약 확정 -->
+<div class="page" id="page-confirm">
+<div class="container">
+  <div class="notice notice-green">✅ 입금 확인 후 확정 문자 — 입금 확인 완료 후 발송하세요</div>
+  <div class="sec">
+    <div class="sec-label">예약 정보</div>
+    <div class="card">
+      <div class="g3" style="margin-bottom:10px;">
+        <div class="field"><label>예약 날짜</label><input type="date" id="c-date" onchange="autoDay('c');genConfirm();"/></div>
+        <div class="field"><label>요일</label><select id="c-day" onchange="genConfirm();">
+          <option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option>
+        </select></div>
+        <div class="field" style="grid-column:span 2;"><label>담당자</label><input type="text" id="c-staff" placeholder="이름 입력" oninput="genConfirm()"/></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>시작 시간</label><select id="c-start" onchange="genConfirm()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+        <div class="field"><label>종료 시간</label><select id="c-end" onchange="genConfirm()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>어린이 이름</label><input type="text" id="c-kid-name" placeholder="예: 김하늘" oninput="genConfirm()"/></div>
+        <div class="field"><label>단체명</label><input type="text" id="c-booker" placeholder="예: 홍길동 / 해피파티" oninput="genConfirm()"/></div>
+      </div>
+      <div class="field" style="margin-bottom:10px;"><label>예약자 전화번호</label><input type="text" id="c-phone" placeholder="예: 010-1234-5678" inputmode="tel" oninput="genConfirm()"/></div>
+      <div class="g3" style="margin-bottom:10px;">
+        <div class="field"><label>파티룸 여부</label><select id="c-room" onchange="genConfirm()"><option>파티룸</option><option>일반</option></select></div>
+        <div class="field"><label>어른 인원</label><select id="c-adult" onchange="genConfirm()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option></select></div>
+        <div class="field"><label>아이 인원</label><select id="c-kid" onchange="genConfirm()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option>
+<option value="21">21명</option>
+<option value="22">22명</option>
+<option value="23">23명</option>
+<option value="24">24명</option>
+<option value="25">25명</option>
+<option value="26">26명</option>
+<option value="27">27명</option>
+<option value="28">28명</option>
+<option value="29">29명</option>
+<option value="30">30명</option>
+<option value="31">31명</option>
+<option value="32">32명</option>
+<option value="33">33명</option>
+<option value="34">34명</option>
+<option value="35">35명</option>
+<option value="36">36명</option>
+<option value="37">37명</option>
+<option value="38">38명</option>
+<option value="39">39명</option>
+<option value="40">40명</option>
+<option value="41">41명</option>
+<option value="42">42명</option>
+<option value="43">43명</option>
+<option value="44">44명</option>
+<option value="45">45명</option>
+<option value="46">46명</option>
+<option value="47">47명</option>
+<option value="48">48명</option>
+<option value="49">49명</option>
+<option value="50">50명</option>
+<option value="51">51명</option>
+<option value="52">52명</option>
+<option value="53">53명</option>
+<option value="54">54명</option>
+<option value="55">55명</option>
+<option value="56">56명</option>
+<option value="57">57명</option>
+<option value="58">58명</option>
+<option value="59">59명</option>
+<option value="60">60명</option>
+<option value="61">61명</option>
+<option value="62">62명</option>
+<option value="63">63명</option>
+<option value="64">64명</option>
+<option value="65">65명</option>
+<option value="66">66명</option>
+<option value="67">67명</option>
+<option value="68">68명</option>
+<option value="69">69명</option>
+<option value="70">70명</option>
+<option value="71">71명</option>
+<option value="72">72명</option>
+<option value="73">73명</option>
+<option value="74">74명</option>
+<option value="75">75명</option>
+<option value="76">76명</option>
+<option value="77">77명</option>
+<option value="78">78명</option>
+<option value="79">79명</option>
+<option value="80">80명</option>
+<option value="81">81명</option>
+<option value="82">82명</option>
+<option value="83">83명</option>
+<option value="84">84명</option>
+<option value="85">85명</option>
+<option value="86">86명</option>
+<option value="87">87명</option>
+<option value="88">88명</option>
+<option value="89">89명</option>
+<option value="90">90명</option>
+<option value="91">91명</option>
+<option value="92">92명</option>
+<option value="93">93명</option>
+<option value="94">94명</option>
+<option value="95">95명</option>
+<option value="96">96명</option>
+<option value="97">97명</option>
+<option value="98">98명</option>
+<option value="99">99명</option>
+<option value="100">100명</option></select></div>
+      </div>
+      <div class="field"><label>특이사항</label><textarea id="c-memo" rows="2" placeholder="특이사항 입력..." oninput="genConfirm()"></textarea></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-label">예약 확정 문자</div>
+    <div class="msg-box" id="c-msg">정보를 입력하면 문자가 자동 생성됩니다.</div>
+    <button class="copy-btn" id="c-copy-btn" onclick="copyMsg('c-msg','c-copy-btn')">문자 복사하기</button>
+    <div class="save-row">
+      <button class="save-btn" id="c-save-btn" onclick="saveRes('confirm')">구글 시트에 저장</button>
+      <span class="save-msg" id="c-save-msg"></span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 어린이집 -->
+<div class="page" id="page-kinder">
+<div class="container">
+  <div class="notice notice-purple">🏫 어린이집 단체 예약 확정 문자 — 교사 양말 착용 필수 / 단체 최소 5만원</div>
+  <div class="sec">
+    <div class="sec-label">예약 정보</div>
+    <div class="card">
+      <div class="g3" style="margin-bottom:10px;">
+        <div class="field"><label>예약 날짜</label><input type="date" id="k-date" onchange="autoDay('k');genKinder();"/></div>
+        <div class="field"><label>요일</label><select id="k-day" onchange="genKinder();">
+          <option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option>
+        </select></div>
+        <div class="field" style="grid-column:span 2;"><label>담당자</label><input type="text" id="k-staff" placeholder="이름 입력" oninput="genKinder()"/></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>시작 시간</label><select id="k-start" onchange="genKinder()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+        <div class="field"><label>종료 시간</label><select id="k-end" onchange="genKinder()"><option value="10:00">오전 10시</option>
+<option value="11:00">오전 11시</option>
+<option value="12:00">오후 12시</option>
+<option value="13:00">오후 1시</option>
+<option value="14:00">오후 2시</option>
+<option value="15:00">오후 3시</option>
+<option value="16:00">오후 4시</option>
+<option value="17:00">오후 5시</option>
+<option value="18:00">오후 6시</option>
+<option value="19:00">오후 7시</option>
+<option value="20:00">오후 8시</option>
+</select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>어린이집 이름</label><input type="text" id="k-name" placeholder="예: 햇살어린이집" oninput="genKinder()"/></div>
+        <div class="field"><label>단체명</label><input type="text" id="k-booker" placeholder="예: 홍길동 / 햇살어린이집" oninput="genKinder()"/></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>예약자 전화번호</label><input type="text" id="k-phone" placeholder="예: 010-1234-5678" inputmode="tel" oninput="genKinder()"/></div>
+        <div class="field"><label>유치원/어린이집 구분</label><select id="k-type" onchange="genKinder()"><option>어린이집</option><option>유치원</option></select></div>
+      </div>
+      <div class="g2" style="margin-bottom:10px;">
+        <div class="field"><label>교사 인원</label><select id="k-teacher" onchange="genKinder()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option></select></div>
+        <div class="field"><label>어린이 인원</label><select id="k-child" onchange="genKinder()"><option value="0">0명</option>
+<option value="1">1명</option>
+<option value="2">2명</option>
+<option value="3">3명</option>
+<option value="4">4명</option>
+<option value="5">5명</option>
+<option value="6">6명</option>
+<option value="7">7명</option>
+<option value="8">8명</option>
+<option value="9">9명</option>
+<option value="10">10명</option>
+<option value="11">11명</option>
+<option value="12">12명</option>
+<option value="13">13명</option>
+<option value="14">14명</option>
+<option value="15">15명</option>
+<option value="16">16명</option>
+<option value="17">17명</option>
+<option value="18">18명</option>
+<option value="19">19명</option>
+<option value="20">20명</option>
+<option value="21">21명</option>
+<option value="22">22명</option>
+<option value="23">23명</option>
+<option value="24">24명</option>
+<option value="25">25명</option>
+<option value="26">26명</option>
+<option value="27">27명</option>
+<option value="28">28명</option>
+<option value="29">29명</option>
+<option value="30">30명</option>
+<option value="31">31명</option>
+<option value="32">32명</option>
+<option value="33">33명</option>
+<option value="34">34명</option>
+<option value="35">35명</option>
+<option value="36">36명</option>
+<option value="37">37명</option>
+<option value="38">38명</option>
+<option value="39">39명</option>
+<option value="40">40명</option>
+<option value="41">41명</option>
+<option value="42">42명</option>
+<option value="43">43명</option>
+<option value="44">44명</option>
+<option value="45">45명</option>
+<option value="46">46명</option>
+<option value="47">47명</option>
+<option value="48">48명</option>
+<option value="49">49명</option>
+<option value="50">50명</option>
+<option value="51">51명</option>
+<option value="52">52명</option>
+<option value="53">53명</option>
+<option value="54">54명</option>
+<option value="55">55명</option>
+<option value="56">56명</option>
+<option value="57">57명</option>
+<option value="58">58명</option>
+<option value="59">59명</option>
+<option value="60">60명</option>
+<option value="61">61명</option>
+<option value="62">62명</option>
+<option value="63">63명</option>
+<option value="64">64명</option>
+<option value="65">65명</option>
+<option value="66">66명</option>
+<option value="67">67명</option>
+<option value="68">68명</option>
+<option value="69">69명</option>
+<option value="70">70명</option>
+<option value="71">71명</option>
+<option value="72">72명</option>
+<option value="73">73명</option>
+<option value="74">74명</option>
+<option value="75">75명</option>
+<option value="76">76명</option>
+<option value="77">77명</option>
+<option value="78">78명</option>
+<option value="79">79명</option>
+<option value="80">80명</option>
+<option value="81">81명</option>
+<option value="82">82명</option>
+<option value="83">83명</option>
+<option value="84">84명</option>
+<option value="85">85명</option>
+<option value="86">86명</option>
+<option value="87">87명</option>
+<option value="88">88명</option>
+<option value="89">89명</option>
+<option value="90">90명</option>
+<option value="91">91명</option>
+<option value="92">92명</option>
+<option value="93">93명</option>
+<option value="94">94명</option>
+<option value="95">95명</option>
+<option value="96">96명</option>
+<option value="97">97명</option>
+<option value="98">98명</option>
+<option value="99">99명</option>
+<option value="100">100명</option></select></div>
+      </div>
+      <div class="field"><label>특이사항</label><textarea id="k-memo" rows="2" placeholder="특이사항 입력..." oninput="genKinder()"></textarea></div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-label">어린이집 예약 확정 문자</div>
+    <div class="msg-box" id="k-msg">정보를 입력하면 문자가 자동 생성됩니다.</div>
+    <button class="copy-btn" id="k-copy-btn" onclick="copyMsg('k-msg','k-copy-btn')">문자 복사하기</button>
+    <div class="save-row">
+      <button class="save-btn" id="k-save-btn" onclick="saveRes('kinder')">구글 시트에 저장</button>
+      <span class="save-msg" id="k-save-msg"></span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 예약 기록 -->
+<div class="page" id="page-history">
+<div class="container">
+  <div class="sec">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;">
+      <div class="sec-label" style="margin-bottom:0;">예약 기록</div>
+      <button class="refresh-btn" onclick="loadHistory()">새로고침</button>
+    </div>
+    <div id="history-list"><div class="placeholder">불러오는 중...</div></div>
+  </div>
+</div>
+</div>
+
+<script>
+const SHEET_URL='https://script.google.com/macros/s/AKfycbxi6zKaw9Uaa9uWTeSQtRefSHnDzh5_hJ-vd5AXVPJst6yr2Rohjp08Ap3SPsQbPqsUkw/exec';
+
+function switchTab(t){
+  const map={wait:0,confirm:1,kinder:2,history:3};
+  document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',i===map[t]));
+  document.querySelectorAll('.page').forEach((el,i)=>el.classList.toggle('active',i===map[t]));
+  if(t==='history')loadHistory();
+  window.scrollTo(0,0);
+}
+
+function autoDay(p){
+  const dateEl=document.getElementById(`${p}-date`);
+  const dayEl=document.getElementById(`${p}-day`);
+  if(!dateEl.value)return;
+  const d=new Date(dateEl.value);
+  const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+  dayEl.value=days[d.getDay()];
+}
+
+function getDateStr(v){
+  if(!v)return '';
+  const d=new Date(v);
+  return `${d.getMonth()+1}월 ${d.getDate()}일`;
+}
+
+function fmtTime(t){
+  if(!t)return '';
+  const [h]=t.split(':');
+  const hh=parseInt(h);
+  return `${hh<12?'오전':'오후'} ${hh<=12?hh:hh-12}시`;
+}
+
+function genWait(){
+  const msg=`안녕하세요.\n월드킹 계양점 입니다\n예약금 10,000원 \n기업은행 월드킹계양점\n231-174168-04-013\n입금 확인 되시면 \n예약 도와 드리겠습니다. \n문의전화 : 032-542-5254\n취소시 예약금 환불은 불가합니다.`;
+  document.getElementById('w-msg').textContent=msg;
+}
+
+function genConfirm(){
+  const date=document.getElementById('c-date').value;
+  const day=document.getElementById('c-day').value;
+  const start=document.getElementById('c-start').value;
+  const end=document.getElementById('c-end').value;
+  const kidName=document.getElementById('c-kid-name').value||'__';
+  const room=document.getElementById('c-room').value;
+  const dateStr=date?`${getDateStr(date)} ${day}`:'__월 __일 __요일';
+  const timeStr=`${fmtTime(start)||'__시'}-${fmtTime(end)||'__시'}`;
+  const msg=`안녕하세요. \n월드킹 계양점 입니다. \n${dateStr} ${room}\n${timeStr} \n♡${kidName} 어린이 이름으로\n예약되었습니다. 감사합니다. ^^\n문의전화 : 032-542-5254`;
+  document.getElementById('c-msg').textContent=msg;
+}
+
+function genKinder(){
+  const date=document.getElementById('k-date').value;
+  const day=document.getElementById('k-day').value;
+  const start=document.getElementById('k-start').value;
+  const end=document.getElementById('k-end').value;
+  const name=document.getElementById('k-name').value||'__';
+  const kinderType=document.getElementById('k-type').value||'어린이집';
+  const teacher=document.getElementById('k-teacher').value||'0';
+  const child=document.getElementById('k-child').value||'0';
+  const dateStr=date?`${getDateStr(date)} ${day}`:'__월 __일 __요일';
+  const timeStr=`${fmtTime(start)||'__시'}-${fmtTime(end)||'__시'}`;
+  const msg=`안녕하세요. \n월드킹 계양점 입니다. \n${dateStr} \n${timeStr} \n(교사:${teacher}명 어린이:${child}명)\n♡${name} 어린이집 이름으로\n예약되었습니다. 감사합니다.\n*교사 양말 착용 필수 입니다. \n*단체 최소 금액은 5만원입니다.\n문의전화 : 032-542-5254`;
+  document.getElementById('k-msg').textContent=msg;
+}
+
+function copyMsg(msgId,btnId){
+  const text=document.getElementById(msgId).textContent;
+  if(text.includes('정보를 입력'))return;
+  navigator.clipboard.writeText(text).then(()=>{
+    const btn=document.getElementById(btnId);
+    btn.textContent='복사 완료!';
+    setTimeout(()=>btn.textContent='문자 복사하기',2000);
+  });
+}
+
+function saveRes(type){
+  let r={};
+  if(type==='wait'){
+    r={date:document.getElementById('w-date').value,day:document.getElementById('w-day').value,
+      startTime:document.getElementById('w-start').value,endTime:document.getElementById('w-end').value,
+      name:document.getElementById('w-kid-name').value,booker:document.getElementById('w-booker').value,phone:document.getElementById('w-phone').value,
+      category:'생일/단체',status:'대기',
+      adultCount:document.getElementById('w-adult').value,kidCount:document.getElementById('w-kid').value,
+      memo:document.getElementById('w-memo').value,staff:document.getElementById('w-staff').value};
+  }else if(type==='confirm'){
+    r={date:document.getElementById('c-date').value,day:document.getElementById('c-day').value,
+      startTime:document.getElementById('c-start').value,endTime:document.getElementById('c-end').value,
+      name:document.getElementById('c-kid-name').value,booker:document.getElementById('c-booker').value,phone:document.getElementById('c-phone').value,
+      category:'생일/단체',status:'확정',
+      adultCount:document.getElementById('c-adult').value,kidCount:document.getElementById('c-kid').value,
+      memo:document.getElementById('c-memo').value,staff:document.getElementById('c-staff').value};
+  }else{
+    r={date:document.getElementById('k-date').value,day:document.getElementById('k-day').value,
+      startTime:document.getElementById('k-start').value,endTime:document.getElementById('k-end').value,
+      name:document.getElementById('k-name').value,booker:document.getElementById('k-booker').value,phone:document.getElementById('k-phone').value,kinderType:document.getElementById('k-type').value,
+      category:'어린이집',status:'확정',
+      teacherCount:document.getElementById('k-teacher').value,childCount:document.getElementById('k-child').value,
+      memo:document.getElementById('k-memo').value,staff:document.getElementById('k-staff').value};
+  }
+  const pfx=type==='wait'?'w':type==='confirm'?'c':'k';
+  const btn=document.getElementById(`${pfx}-save-btn`);
+  const msgEl=document.getElementById(`${pfx}-save-msg`);
+  btn.disabled=true;btn.textContent='저장 중...';
+  fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'save_reservation',reservation:r})})
+    .then(()=>{msgEl.textContent='✓ 저장됨';msgEl.style.color='var(--green)';})
+    .catch(()=>{msgEl.textContent='저장 실패';msgEl.style.color='var(--red)';})
+    .finally(()=>{btn.disabled=false;btn.textContent='구글 시트에 저장';setTimeout(()=>msgEl.textContent='',3000);});
+}
+
+function loadHistory(){
+  document.getElementById('history-list').innerHTML='<div class="placeholder">불러오는 중...</div>';
+  fetch(SHEET_URL)
+    .then(r=>r.json())
+    .then(data=>{
+      const all=[
+        ...(data.waiting||[]).map(r=>{return {...r,_type:'wait'}}),
+        ...(data.confirmed||[]).map(r=>{return {...r,_type:'confirm'}}),
+        ...(data.kindergarten||[]).map(r=>{return {...r,_type:'kinder'}})
+      ].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+      if(!all.length){document.getElementById('history-list').innerHTML='<div class="placeholder">저장된 예약 기록이 없습니다.</div>';return;}
+      document.getElementById('history-list').innerHTML=all.map(r=>{
+        const d=new Date(r.date);
+        const days=['일','월','화','수','목','금','토'];
+        const ds=isNaN(d.getTime())?r.date:`${d.getMonth()+1}/${d.getDate()}(${days[d.getDay()]})`;
+        const badge=r._type==='wait'?'<span class="badge badge-wait">대기</span>':
+                    r._type==='confirm'?'<span class="badge badge-confirm">확정</span>':
+                    '<span class="badge badge-kinder">어린이집</span>';
+        const time=r.startTime&&r.endTime?`${r.startTime}~${r.endTime}`:'';
+        const people=r._type==='kinder'?`교사 ${r.teacherCount}명 / 어린이 ${r.childCount}명`:`어른 ${r.adultCount}명 / 아이 ${r.kidCount}명`;
+        return `<div class="rec-card">
+          <div class="rec-header"><span class="rec-date">${ds} ${r.day||''}</span>${badge}</div>
+          <div class="rec-info">
+            <div>♡ ${r.name}${r.booker?` (예약자: ${r.booker})`:''}</div>
+            <div>${time} · ${people}</div>
+            ${r.memo?`<div>📝 ${r.memo}</div>`:''}
+            ${r.staff?`<div>담당: ${r.staff}</div>`:''}
+          </div>
+        </div>`;
+      }).join('');
+    })
+    .catch(()=>{document.getElementById('history-list').innerHTML='<div class="placeholder">불러오기 실패. 새로고침을 눌러주세요.</div>';});
+}
+
+// 오늘 날짜 기본값 + 요일 자동설정
+const today=new Date().toISOString().split('T')[0];
+['w','c','k'].forEach(p=>{
+  document.getElementById(`${p}-date`).value=today;
+  autoDay(p);
+});
+
+genWait();
+</script>
+</body>
+</html>
