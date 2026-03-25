@@ -277,6 +277,10 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
           <option value="">— 선택하세요 —</option>
         </select>
       </div>
+      <div style="margin-top:10px;">
+        <button class="save-btn" style="background:var(--amber-mid);" onclick="confirmFromWait()">✅ 선택한 대기 예약을 확정으로 변경</button>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px;">※ 대기 목록에서 삭제되고 확정으로 이동됩니다</div>
+      </div>
     </div>
   </div>
   <div class="sec">
@@ -764,9 +768,18 @@ function saveRes(type){
   const btn=document.getElementById(`${pfx}-save-btn`);
   const msgEl=document.getElementById(`${pfx}-save-msg`);
   btn.disabled=true;btn.textContent='저장 중...';
-  fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'save_reservation',reservation:r})})
-    .then(()=>{msgEl.textContent='✓ 저장됨';msgEl.style.color='var(--green)';})
-    .catch(()=>{msgEl.textContent='저장 실패';msgEl.style.color='var(--red)';})
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({type:'save_reservation',reservation:r})})
+    .then(r=>r.json())
+    .then(data=>{
+      if(data.status==='ok'){msgEl.textContent='✓ 저장됨';msgEl.style.color='var(--green)';}
+      else{msgEl.textContent='저장 실패';msgEl.style.color='var(--red)';}
+    })
+    .catch(()=>{
+      // CORS 오류시 no-cors로 재시도
+      fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'save_reservation',reservation:r})})
+        .then(()=>{msgEl.textContent='✓ 저장됨';msgEl.style.color='var(--green)';})
+        .catch(()=>{msgEl.textContent='저장 실패';msgEl.style.color='var(--red)';});
+    })
     .finally(()=>{btn.disabled=false;btn.textContent='구글 시트에 저장';setTimeout(()=>msgEl.textContent='',3000);});
 }
 
@@ -822,7 +835,39 @@ function loadFromWait(){
   document.getElementById('c-memo').value=r.memo||'';
   document.getElementById('c-staff').value=r.staff||'';
   genConfirm();
-  alert('✓ 대기 정보를 불러왔어요!\n내용 확인 후 저장해주세요.');
+}
+
+function confirmFromWait(){
+  const idx=document.getElementById('wait-list-select').value;
+  if(idx===''){alert('대기 예약을 선택해주세요.');return;}
+  const r=waitRecords[parseInt(idx)];
+  if(!r)return;
+  if(!confirm(`♡${r.name} (${r.date}) 예약을 확정으로 변경할까요?\n대기 목록에서 삭제됩니다.`))return;
+
+  const btn=document.querySelector('#page-confirm .save-btn');
+  fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
+    type:'confirm_reservation',
+    date:r.date,
+    name:r.name
+  })})
+  .then(res=>res.json())
+  .then(data=>{
+    if(data.status==='ok'){
+      alert('✓ 확정으로 변경됐어요!');
+      loadWaitList();
+    }else{
+      // no-cors 재시도
+      return fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+        type:'confirm_reservation',date:r.date,name:r.name
+      })}).then(()=>{alert('✓ 확정으로 변경됐어요!');loadWaitList();});
+    }
+  })
+  .catch(()=>{
+    fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
+      type:'confirm_reservation',date:r.date,name:r.name
+    })}).then(()=>{alert('✓ 확정으로 변경됐어요!');loadWaitList();})
+    .catch(()=>alert('변경 실패. 다시 시도해주세요.'));
+  });
 }
 
 function loadHistory(){
