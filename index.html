@@ -278,8 +278,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         </select>
       </div>
       <div style="margin-top:10px;">
-        <button class="save-btn" style="background:var(--amber-mid);" onclick="confirmFromWait()">✅ 선택한 대기 예약을 확정으로 변경</button>
-        <div style="font-size:11px;color:var(--muted);margin-top:5px;">※ 대기 목록에서 삭제되고 확정으로 이동됩니다</div>
+        <button class="save-btn" style="background:var(--green-mid);font-size:16px;padding:14px;" onclick="confirmFromWait()">✅ 확정으로 변경 + 문자 생성</button>
+        <div style="font-size:11px;color:var(--muted);margin-top:5px;">※ 대기에서 확정으로 변경되고 문자가 자동 생성됩니다</div>
       </div>
     </div>
   </div>
@@ -456,10 +456,6 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     <div class="sec-label">예약 확정 문자</div>
     <div class="msg-box" id="c-msg">정보를 입력하면 문자가 자동 생성됩니다.</div>
     <button class="copy-btn" id="c-copy-btn" onclick="copyMsg('c-msg','c-copy-btn')">문자 복사하기</button>
-    <div class="save-row">
-      <button class="save-btn" id="c-save-btn" onclick="saveRes('confirm')">구글 시트에 저장</button>
-      <span class="save-msg" id="c-save-msg"></span>
-    </div>
   </div>
 </div>
 </div>
@@ -842,9 +838,26 @@ function confirmFromWait(){
   if(idx===''){alert('대기 예약을 선택해주세요.');return;}
   const r=waitRecords[parseInt(idx)];
   if(!r)return;
-  if(!confirm(`♡${r.name} (${r.date}) 예약을 확정으로 변경할까요?\n대기 목록에서 삭제됩니다.`))return;
+  if(!confirm(`♡${r.name} (${r.date}) 예약을 확정으로 변경할까요?`))return;
 
-  const btn=document.querySelector('#page-confirm .save-btn');
+  // 확정 탭 정보 채우기
+  if(r.date){
+    document.getElementById('c-date').value=r.date;
+    const d=new Date(r.date);
+    const days=['일요일','월요일','화요일','수요일','목요일','금요일','토요일'];
+    document.getElementById('c-day').value=days[d.getDay()];
+  }
+  if(r.startTime)document.getElementById('c-start').value=r.startTime;
+  if(r.endTime)document.getElementById('c-end').value=r.endTime;
+  document.getElementById('c-kid-name').value=r.name||'';
+  document.getElementById('c-booker').value=r.booker||'';
+  document.getElementById('c-phone').value=r.phone||'';
+  document.getElementById('c-adult').value=r.adultCount||0;
+  document.getElementById('c-kid').value=r.kidCount||0;
+  document.getElementById('c-memo').value=r.memo||'';
+  document.getElementById('c-staff').value=r.staff||'';
+
+  // 구글 시트에서 대기→확정 변경
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
     type:'confirm_reservation',
     date:r.date,
@@ -853,20 +866,21 @@ function confirmFromWait(){
   .then(res=>res.json())
   .then(data=>{
     if(data.status==='ok'){
-      alert('✓ 확정으로 변경됐어요!');
+      genConfirm();
       loadWaitList();
-    }else{
-      // no-cors 재시도
-      return fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
-        type:'confirm_reservation',date:r.date,name:r.name
-      })}).then(()=>{alert('✓ 확정으로 변경됐어요!');loadWaitList();});
+      // 확정 문자 섹션으로 스크롤
+      document.getElementById('c-msg').scrollIntoView({behavior:'smooth'});
     }
   })
   .catch(()=>{
+    // no-cors 재시도
     fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
       type:'confirm_reservation',date:r.date,name:r.name
-    })}).then(()=>{alert('✓ 확정으로 변경됐어요!');loadWaitList();})
-    .catch(()=>alert('변경 실패. 다시 시도해주세요.'));
+    })}).then(()=>{
+      genConfirm();
+      loadWaitList();
+      document.getElementById('c-msg').scrollIntoView({behavior:'smooth'});
+    }).catch(()=>alert('변경 실패. 다시 시도해주세요.'));
   });
 }
 
