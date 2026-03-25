@@ -269,6 +269,17 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 <div class="container">
   <div class="notice notice-green">✅ 입금 확인 후 확정 문자 — 입금 확인 완료 후 발송하세요</div>
   <div class="sec">
+    <div class="sec-label">예약 대기 목록에서 불러오기</div>
+    <div class="card">
+      <div class="field">
+        <label>대기 중인 예약 선택</label>
+        <select id="wait-list-select" onchange="loadFromWait()">
+          <option value="">— 선택하세요 —</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="sec">
     <div class="sec-label">예약 정보</div>
     <div class="card">
       <div class="g3" style="margin-bottom:10px;">
