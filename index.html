@@ -803,7 +803,8 @@ function confirmFromWait(){
 
 function loadDone(){
   document.getElementById('done-list').innerHTML='<div class="placeholder">불러오는 중...</div>';
-  const todayStr=new Date().toISOString().split('T')[0];
+  const _td=new Date();
+  const todayStr=new Date(_td.getTime()+9*60*60*1000).toISOString().split('T')[0];
   fetch(SHEET_URL)
     .then(res=>res.json())
     .then(data=>{
@@ -811,9 +812,10 @@ function loadDone(){
       const confirmed=(data.confirmed||[]).map(r=>({...r,_type:'confirm'}));
       const kindergarten=(data.kindergarten||[]).map(r=>({...r,_type:'kinder'}));
       const cancelled=(data.cancelled||[]).map(r=>({...r,_type:'cancel'}));
-      const all=[...waiting,...confirmed,...kindergarten,...cancelled]
-        .filter(r=>String(r.date)<todayStr)
-        .sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+      const all=[
+        ...[...waiting,...confirmed,...kindergarten].filter(r=>String(r.date)<todayStr),
+        ...cancelled
+      ].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
       if(!all.length){document.getElementById('done-list').innerHTML='<div class="placeholder">완료된 예약이 없습니다.</div>';return;}
       document.getElementById('done-list').innerHTML=all.map(r=>{
         const d=new Date(r.date);
@@ -936,7 +938,8 @@ function doCancelRes(btn){
     });
 }
 
-const today=new Date().toISOString().split('T')[0];
+const _d=new Date();
+const today=new Date(_d.getTime()+9*60*60*1000).toISOString().split('T')[0];
 ['w','k'].forEach(p=>{document.getElementById(p+'-date').value=today;autoDay(p);});
 genWait();
 
