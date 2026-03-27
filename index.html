@@ -535,7 +535,7 @@ function renderGrouped(records, containerId, showBtns){
   }
   // 날짜 정규화 + 내림차순 정렬 (최신순)
   records.forEach(r=>r._nd=normDate(r.date)||'');
-  records.sort((a,b)=>b._nd.localeCompare(a._nd));
+  records.sort((a,b)=>a._nd.localeCompare(b._nd));
 
   // 날짜별 그룹
   const groups={};
@@ -546,7 +546,7 @@ function renderGrouped(records, containerId, showBtns){
   });
 
   let html='';
-  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(key=>{
+  Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(key=>{
     const sample=groups[key][0];
     const d=new Date(key);
     const days=['일','월','화','수','목','금','토'];
