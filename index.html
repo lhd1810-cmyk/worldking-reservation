@@ -72,6 +72,7 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
 .modal-btns{display:flex;gap:8px;margin-top:14px;}
 .modal-ok{flex:1;font-size:14px;padding:12px;border-radius:var(--radius-sm);border:none;background:var(--green-mid);color:#fff;cursor:pointer;font-family:inherit;font-weight:500;}
 .modal-no{flex:1;font-size:14px;padding:12px;border-radius:var(--radius-sm);border:1px solid var(--border);background:var(--gray-bg);color:var(--muted);cursor:pointer;font-family:inherit;}
+.date-group-header{font-size:12px;font-weight:700;color:var(--primary);background:var(--primary-light);border-radius:var(--radius-sm);padding:6px 12px;margin:12px 0 6px;}
 </style>
 </head>
 <body>
@@ -103,49 +104,29 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>시작 시간</label><select id="w-start" onchange="genWait()">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
         <div class="field"><label>종료 시간</label><select id="w-end" onchange="genWait()">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
       </div>
@@ -155,128 +136,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="g3" style="margin-bottom:10px;">
         <div class="field"><label>예약자 전화번호</label><input type="text" id="w-phone" placeholder="010-0000-0000" inputmode="tel" oninput="genWait()"/></div>
-        <div class="field"><label>어른 인원</label><select id="w-adult" onchange="genWait()"><option value="0">0명</option>
-<option value="1">1명</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명</option>
-<option value="6">6명</option>
-<option value="7">7명</option>
-<option value="8">8명</option>
-<option value="9">9명</option>
-<option value="10">10명</option>
-<option value="11">11명</option>
-<option value="12">12명</option>
-<option value="13">13명</option>
-<option value="14">14명</option>
-<option value="15">15명</option>
-<option value="16">16명</option>
-<option value="17">17명</option>
-<option value="18">18명</option>
-<option value="19">19명</option>
-<option value="20">20명</option></select></div>
-        <div class="field"><label>아이 인원</label><select id="w-kid" onchange="genWait()"><option value="0">0명</option>
-<option value="1">1명</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명</option>
-<option value="6">6명</option>
-<option value="7">7명</option>
-<option value="8">8명</option>
-<option value="9">9명</option>
-<option value="10">10명</option>
-<option value="11">11명</option>
-<option value="12">12명</option>
-<option value="13">13명</option>
-<option value="14">14명</option>
-<option value="15">15명</option>
-<option value="16">16명</option>
-<option value="17">17명</option>
-<option value="18">18명</option>
-<option value="19">19명</option>
-<option value="20">20명</option>
-<option value="21">21명</option>
-<option value="22">22명</option>
-<option value="23">23명</option>
-<option value="24">24명</option>
-<option value="25">25명</option>
-<option value="26">26명</option>
-<option value="27">27명</option>
-<option value="28">28명</option>
-<option value="29">29명</option>
-<option value="30">30명</option>
-<option value="31">31명</option>
-<option value="32">32명</option>
-<option value="33">33명</option>
-<option value="34">34명</option>
-<option value="35">35명</option>
-<option value="36">36명</option>
-<option value="37">37명</option>
-<option value="38">38명</option>
-<option value="39">39명</option>
-<option value="40">40명</option>
-<option value="41">41명</option>
-<option value="42">42명</option>
-<option value="43">43명</option>
-<option value="44">44명</option>
-<option value="45">45명</option>
-<option value="46">46명</option>
-<option value="47">47명</option>
-<option value="48">48명</option>
-<option value="49">49명</option>
-<option value="50">50명</option>
-<option value="51">51명</option>
-<option value="52">52명</option>
-<option value="53">53명</option>
-<option value="54">54명</option>
-<option value="55">55명</option>
-<option value="56">56명</option>
-<option value="57">57명</option>
-<option value="58">58명</option>
-<option value="59">59명</option>
-<option value="60">60명</option>
-<option value="61">61명</option>
-<option value="62">62명</option>
-<option value="63">63명</option>
-<option value="64">64명</option>
-<option value="65">65명</option>
-<option value="66">66명</option>
-<option value="67">67명</option>
-<option value="68">68명</option>
-<option value="69">69명</option>
-<option value="70">70명</option>
-<option value="71">71명</option>
-<option value="72">72명</option>
-<option value="73">73명</option>
-<option value="74">74명</option>
-<option value="75">75명</option>
-<option value="76">76명</option>
-<option value="77">77명</option>
-<option value="78">78명</option>
-<option value="79">79명</option>
-<option value="80">80명</option>
-<option value="81">81명</option>
-<option value="82">82명</option>
-<option value="83">83명</option>
-<option value="84">84명</option>
-<option value="85">85명</option>
-<option value="86">86명</option>
-<option value="87">87명</option>
-<option value="88">88명</option>
-<option value="89">89명</option>
-<option value="90">90명</option>
-<option value="91">91명</option>
-<option value="92">92명</option>
-<option value="93">93명</option>
-<option value="94">94명</option>
-<option value="95">95명</option>
-<option value="96">96명</option>
-<option value="97">97명</option>
-<option value="98">98명</option>
-<option value="99">99명</option>
-<option value="100">100명</option></select></div>
+        <div class="field"><label>어른 인원</label><select id="w-adult" onchange="genWait()"><option value="0">0명</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option><option value="5">5명</option><option value="6">6명</option><option value="7">7명</option><option value="8">8명</option><option value="9">9명</option><option value="10">10명</option><option value="11">11명</option><option value="12">12명</option><option value="13">13명</option><option value="14">14명</option><option value="15">15명</option><option value="16">16명</option><option value="17">17명</option><option value="18">18명</option><option value="19">19명</option><option value="20">20명</option></select></div>
+        <div class="field"><label>아이 인원</label><select id="w-kid" onchange="genWait()"><option value="0">0명</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option><option value="5">5명</option><option value="6">6명</option><option value="7">7명</option><option value="8">8명</option><option value="9">9명</option><option value="10">10명</option><option value="11">11명</option><option value="12">12명</option><option value="13">13명</option><option value="14">14명</option><option value="15">15명</option><option value="16">16명</option><option value="17">17명</option><option value="18">18명</option><option value="19">19명</option><option value="20">20명</option><option value="21">21명</option><option value="22">22명</option><option value="23">23명</option><option value="24">24명</option><option value="25">25명</option><option value="26">26명</option><option value="27">27명</option><option value="28">28명</option><option value="29">29명</option><option value="30">30명</option><option value="40">40명</option><option value="50">50명</option><option value="60">60명</option><option value="70">70명</option><option value="80">80명</option><option value="90">90명</option><option value="100">100명</option></select></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>파티룸 여부</label><select id="w-room" onchange="genWait()"><option>파티룸</option><option>일반</option></select></div>
@@ -333,49 +194,29 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>시작 시간</label><select id="k-start" onchange="genKinder()">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
         <div class="field"><label>종료 시간</label><select id="k-end" onchange="genKinder()">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
       </div>
@@ -385,128 +226,8 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       </div>
       <div class="g3" style="margin-bottom:10px;">
         <div class="field"><label>예약자 전화번호</label><input type="text" id="k-phone" placeholder="010-0000-0000" inputmode="tel" oninput="genKinder()"/></div>
-        <div class="field"><label>교사 인원</label><select id="k-teacher" onchange="genKinder()"><option value="0">0명</option>
-<option value="1">1명</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명</option>
-<option value="6">6명</option>
-<option value="7">7명</option>
-<option value="8">8명</option>
-<option value="9">9명</option>
-<option value="10">10명</option>
-<option value="11">11명</option>
-<option value="12">12명</option>
-<option value="13">13명</option>
-<option value="14">14명</option>
-<option value="15">15명</option>
-<option value="16">16명</option>
-<option value="17">17명</option>
-<option value="18">18명</option>
-<option value="19">19명</option>
-<option value="20">20명</option></select></div>
-        <div class="field"><label>어린이 인원</label><select id="k-child" onchange="genKinder()"><option value="0">0명</option>
-<option value="1">1명</option>
-<option value="2">2명</option>
-<option value="3">3명</option>
-<option value="4">4명</option>
-<option value="5">5명</option>
-<option value="6">6명</option>
-<option value="7">7명</option>
-<option value="8">8명</option>
-<option value="9">9명</option>
-<option value="10">10명</option>
-<option value="11">11명</option>
-<option value="12">12명</option>
-<option value="13">13명</option>
-<option value="14">14명</option>
-<option value="15">15명</option>
-<option value="16">16명</option>
-<option value="17">17명</option>
-<option value="18">18명</option>
-<option value="19">19명</option>
-<option value="20">20명</option>
-<option value="21">21명</option>
-<option value="22">22명</option>
-<option value="23">23명</option>
-<option value="24">24명</option>
-<option value="25">25명</option>
-<option value="26">26명</option>
-<option value="27">27명</option>
-<option value="28">28명</option>
-<option value="29">29명</option>
-<option value="30">30명</option>
-<option value="31">31명</option>
-<option value="32">32명</option>
-<option value="33">33명</option>
-<option value="34">34명</option>
-<option value="35">35명</option>
-<option value="36">36명</option>
-<option value="37">37명</option>
-<option value="38">38명</option>
-<option value="39">39명</option>
-<option value="40">40명</option>
-<option value="41">41명</option>
-<option value="42">42명</option>
-<option value="43">43명</option>
-<option value="44">44명</option>
-<option value="45">45명</option>
-<option value="46">46명</option>
-<option value="47">47명</option>
-<option value="48">48명</option>
-<option value="49">49명</option>
-<option value="50">50명</option>
-<option value="51">51명</option>
-<option value="52">52명</option>
-<option value="53">53명</option>
-<option value="54">54명</option>
-<option value="55">55명</option>
-<option value="56">56명</option>
-<option value="57">57명</option>
-<option value="58">58명</option>
-<option value="59">59명</option>
-<option value="60">60명</option>
-<option value="61">61명</option>
-<option value="62">62명</option>
-<option value="63">63명</option>
-<option value="64">64명</option>
-<option value="65">65명</option>
-<option value="66">66명</option>
-<option value="67">67명</option>
-<option value="68">68명</option>
-<option value="69">69명</option>
-<option value="70">70명</option>
-<option value="71">71명</option>
-<option value="72">72명</option>
-<option value="73">73명</option>
-<option value="74">74명</option>
-<option value="75">75명</option>
-<option value="76">76명</option>
-<option value="77">77명</option>
-<option value="78">78명</option>
-<option value="79">79명</option>
-<option value="80">80명</option>
-<option value="81">81명</option>
-<option value="82">82명</option>
-<option value="83">83명</option>
-<option value="84">84명</option>
-<option value="85">85명</option>
-<option value="86">86명</option>
-<option value="87">87명</option>
-<option value="88">88명</option>
-<option value="89">89명</option>
-<option value="90">90명</option>
-<option value="91">91명</option>
-<option value="92">92명</option>
-<option value="93">93명</option>
-<option value="94">94명</option>
-<option value="95">95명</option>
-<option value="96">96명</option>
-<option value="97">97명</option>
-<option value="98">98명</option>
-<option value="99">99명</option>
-<option value="100">100명</option></select></div>
+        <div class="field"><label>교사 인원</label><select id="k-teacher" onchange="genKinder()"><option value="0">0명</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option><option value="5">5명</option><option value="6">6명</option><option value="7">7명</option><option value="8">8명</option><option value="9">9명</option><option value="10">10명</option><option value="11">11명</option><option value="12">12명</option><option value="13">13명</option><option value="14">14명</option><option value="15">15명</option><option value="16">16명</option><option value="17">17명</option><option value="18">18명</option><option value="19">19명</option><option value="20">20명</option></select></div>
+        <div class="field"><label>어린이 인원</label><select id="k-child" onchange="genKinder()"><option value="0">0명</option><option value="1">1명</option><option value="2">2명</option><option value="3">3명</option><option value="4">4명</option><option value="5">5명</option><option value="6">6명</option><option value="7">7명</option><option value="8">8명</option><option value="9">9명</option><option value="10">10명</option><option value="11">11명</option><option value="12">12명</option><option value="13">13명</option><option value="14">14명</option><option value="15">15명</option><option value="16">16명</option><option value="17">17명</option><option value="18">18명</option><option value="19">19명</option><option value="20">20명</option><option value="25">25명</option><option value="30">30명</option><option value="35">35명</option><option value="40">40명</option><option value="50">50명</option><option value="60">60명</option><option value="70">70명</option><option value="80">80명</option><option value="90">90명</option><option value="100">100명</option></select></div>
       </div>
       <div class="field"><label>특이사항</label><textarea id="k-memo" rows="2" placeholder="특이사항 입력..." oninput="genKinder()"></textarea></div>
     </div>
@@ -559,49 +280,29 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
     </div>
     <div class="g2" style="margin-bottom:10px;">
       <div class="field"><label>시작 시간</label><select id="e-start">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
       <div class="field"><label>종료 시간</label><select id="e-end">
-<option value="10:00">오전 10시</option>
-<option value="10:30">오전 10시 30분</option>
-<option value="11:00">오전 11시</option>
-<option value="11:30">오전 11시 30분</option>
-<option value="12:00">오후 12시</option>
-<option value="12:30">오후 12시 30분</option>
-<option value="13:00">오후 1시</option>
-<option value="13:30">오후 1시 30분</option>
-<option value="14:00">오후 2시</option>
-<option value="14:30">오후 2시 30분</option>
-<option value="15:00">오후 3시</option>
-<option value="15:30">오후 3시 30분</option>
-<option value="16:00">오후 4시</option>
-<option value="16:30">오후 4시 30분</option>
-<option value="17:00">오후 5시</option>
-<option value="17:30">오후 5시 30분</option>
-<option value="18:00">오후 6시</option>
-<option value="18:30">오후 6시 30분</option>
-<option value="19:00">오후 7시</option>
-<option value="19:30">오후 7시 30분</option>
+<option value="10:00">오전 10시</option><option value="10:30">오전 10시 30분</option>
+<option value="11:00">오전 11시</option><option value="11:30">오전 11시 30분</option>
+<option value="12:00">오후 12시</option><option value="12:30">오후 12시 30분</option>
+<option value="13:00">오후 1시</option><option value="13:30">오후 1시 30분</option>
+<option value="14:00">오후 2시</option><option value="14:30">오후 2시 30분</option>
+<option value="15:00">오후 3시</option><option value="15:30">오후 3시 30분</option>
+<option value="16:00">오후 4시</option><option value="16:30">오후 4시 30분</option>
+<option value="17:00">오후 5시</option><option value="17:30">오후 5시 30분</option>
+<option value="18:00">오후 6시</option><option value="18:30">오후 6시 30분</option>
+<option value="19:00">오후 7시</option><option value="19:30">오후 7시 30분</option>
 <option value="20:00">오후 8시</option>
 </select></div>
     </div>
@@ -665,12 +366,44 @@ function getDateStr(v){
   return (d.getMonth()+1)+'월 '+d.getDate()+'일';
 }
 
+// 날짜 문자열을 YYYY-MM-DD 형식으로 정규화 (Date 객체, 한국어 형식 등 모두 처리)
+function normDate(raw){
+  if(!raw)return '';
+  const s=String(raw).trim();
+  // 이미 YYYY-MM-DD
+  if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
+  // Date 객체가 문자열로 직렬화된 경우 (예: "2025-03-28T00:00:00.000Z")
+  if(s.includes('T')){
+    const d=new Date(s);
+    if(!isNaN(d.getTime())){
+      // KST 보정 (+9h)
+      const kst=new Date(d.getTime()+9*60*60*1000);
+      return kst.toISOString().split('T')[0];
+    }
+  }
+  // "2025/03/28" 형식
+  if(/^\d{4}\/\d{2}\/\d{2}$/.test(s))return s.replace(/\//g,'-');
+  // 기타 파싱 시도
+  const d=new Date(s);
+  if(!isNaN(d.getTime()))return d.toISOString().split('T')[0];
+  return s;
+}
+
+function dispDate(raw){
+  const norm=normDate(raw);
+  if(!norm)return '';
+  const d=new Date(norm);
+  if(isNaN(d.getTime()))return norm;
+  const days=['일','월','화','수','목','금','토'];
+  return (d.getMonth()+1)+'/'+d.getDate()+'('+days[d.getDay()]+')';
+}
+
 function genWait(){
   document.getElementById('w-msg').textContent='안녕하세요.\n월드킹 계양점입니다. \n예약금 10,000원 \n기업은행 월드킹계양점\n231-174168-04-013\n입금 확인 되시면 \n예약 도와 드리겠습니다. \n문의전화 : 032-542-5254\n취소시 예약금 환불은 불가합니다.';
 }
 
 function genConfirmMsg(r){
-  const dateStr=r.date?getDateStr(r.date)+' '+r.day:'__월 __일';
+  const dateStr=r.date?getDateStr(normDate(r.date))+' '+r.day:'__월 __일';
   const timeStr=(r.startTime&&r.endTime)?fmtTime(r.startTime)+'-'+fmtTime(r.endTime):'__시-__시';
   const room=r.room||'파티룸';
   const name=r.name||'__';
@@ -722,7 +455,7 @@ function saveRes(type){
   const pfx=isK?'k':'w';
   const btn=document.getElementById(pfx+'-save-btn');
   const msgEl=document.getElementById(pfx+'-save-msg');
-  btn.disabled=true; btn.textContent='저장 중...';
+  btn.disabled=true;btn.textContent='저장 중...';
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({type:'save_reservation',reservation:r})})
     .then(res=>res.json())
     .then(d=>{msgEl.textContent=d.status==='ok'?'✓ 저장됨':'저장 실패';msgEl.style.color=d.status==='ok'?'var(--green)':'var(--red)';})
@@ -740,9 +473,7 @@ function loadWaitList(){
       sel.innerHTML='<option value="">— 선택하세요 —</option>';
       if(!waitRecords.length){sel.innerHTML='<option value="">대기 중인 예약이 없습니다</option>';return;}
       waitRecords.forEach((r,i)=>{
-        const d=new Date(r.date);
-        const days=['일','월','화','수','목','금','토'];
-        const ds=isNaN(d.getTime())?r.date:(d.getMonth()+1)+'/'+d.getDate()+'('+days[d.getDay()]+')';
+        const ds=dispDate(r.date);
         const opt=document.createElement('option');
         opt.value=i;
         opt.textContent=ds+' '+r.startTime+'-'+r.endTime+' ♡'+(r.name||'')+' ('+(r.booker||'')+')';
@@ -758,47 +489,89 @@ function confirmFromWait(){
   const r=waitRecords[parseInt(idx)];
   if(!r)return;
   if(!confirm('♡'+(r.name||'')+'('+r.date+') 예약을 확정으로 변경할까요?'))return;
-
   const btn=document.querySelector('[onclick="confirmFromWait()"]');
   if(btn){btn.disabled=true;btn.textContent='처리 중...';}
-
-  // 날짜/이름 정확히 전달
-  const sendDate = String(r.date||'').trim();
-  const sendName = String(r.name||'').trim();
-
+  const sendDate=String(r.date||'').trim();
+  const sendName=String(r.name||'').trim();
   function doConfirm(){
-    return fetch(SHEET_URL,{method:'POST',body:JSON.stringify({
-      type:'confirm_reservation',date:sendDate,name:sendName
-    })}).then(res=>res.json());
+    return fetch(SHEET_URL,{method:'POST',body:JSON.stringify({type:'confirm_reservation',date:sendDate,name:sendName})}).then(res=>res.json());
   }
-
   doConfirm()
     .then(d=>{
-      if(d.status==='ok'){
-        document.getElementById('c-msg').textContent=genConfirmMsg(r);
-        loadWaitList();
-        alert('✅ 확정으로 변경됐어요!');
-      } else {
-        // no-cors 재시도
-        return fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
-          type:'confirm_reservation',date:sendDate,name:sendName
-        })}).then(()=>{
-          document.getElementById('c-msg').textContent=genConfirmMsg(r);
-          loadWaitList();
-          alert('✅ 확정으로 변경됐어요!');
-        });
-      }
+      if(d.status==='ok'){document.getElementById('c-msg').textContent=genConfirmMsg(r);loadWaitList();alert('✅ 확정으로 변경됐어요!');}
+      else{return fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'confirm_reservation',date:sendDate,name:sendName})}).then(()=>{document.getElementById('c-msg').textContent=genConfirmMsg(r);loadWaitList();alert('✅ 확정으로 변경됐어요!');});}
     })
-    .catch(()=>{
-      fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({
-        type:'confirm_reservation',date:sendDate,name:sendName
-      })}).then(()=>{
-        document.getElementById('c-msg').textContent=genConfirmMsg(r);
-        loadWaitList();
-        alert('✅ 확정으로 변경됐어요!');
-      }).catch(()=>alert('변경 실패. 다시 시도해주세요.'));
-    })
+    .catch(()=>{fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'confirm_reservation',date:sendDate,name:sendName})}).then(()=>{document.getElementById('c-msg').textContent=genConfirmMsg(r);loadWaitList();alert('✅ 확정으로 변경됐어요!');}).catch(()=>alert('변경 실패. 다시 시도해주세요.'));})
     .finally(()=>{if(btn){btn.disabled=false;btn.textContent='✅ 확정으로 변경 + 문자 생성';}});
+}
+
+function buildRecCard(r,showBtns){
+  const nd=normDate(r.date);
+  const ds=dispDate(r.date);
+  const badge=r._type==='wait'?'<span class="badge badge-wait">대기</span>':
+    r._type==='confirm'?'<span class="badge badge-confirm">확정</span>':
+    r._type==='kinder'?'<span class="badge badge-kinder">어린이집</span>':
+    '<span class="badge badge-cancel">취소</span>';
+  const time=(r.startTime&&r.endTime)?r.startTime+'~'+r.endTime:'';
+  const people=r._type==='kinder'?'교사 '+(r.teacherCount||0)+'명 / 어린이 '+(r.childCount||0)+'명':'어른 '+(r.adultCount||0)+'명 / 아이 '+(r.kidCount||0)+'명';
+  const btns=showBtns&&r._type!=='cancel'?'<div class="btn-row"><button class="btn-edit" onclick="openEdit(this)">✏️ 수정</button><button class="btn-cancel-res" onclick="doCancelRes(this)">❌ 취소</button></div>':'';
+  // r에 정규화된 날짜 포함
+  const safeData=JSON.stringify({...r,date:nd||r.date}).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
+  return '<div class="rec-card" data-r=\''+safeData+'\'>'+
+    '<div class="rec-header"><span class="rec-date">'+ds+' '+(r.day||'')+'</span>'+badge+'</div>'+
+    '<div class="rec-info">'+
+    '<div>♡ '+(r.name||'')+(r.booker?' / '+r.booker:'')+'</div>'+
+    '<div>'+(time?time+' · ':'')+people+'</div>'+
+    (r.phone?'<div>📞 '+r.phone+'</div>':'')+
+    (r.memo?'<div>📝 '+r.memo+'</div>':'')+
+    (r.staff?'<div>담당: '+r.staff+'</div>':'')+
+    '</div>'+btns+'</div>';
+}
+
+function renderGrouped(records, containerId, showBtns){
+  if(!records.length){
+    document.getElementById(containerId).innerHTML='<div class="placeholder">기록이 없습니다.</div>';
+    return;
+  }
+  // 날짜 정규화 + 내림차순 정렬 (최신순)
+  records.forEach(r=>r._nd=normDate(r.date)||'');
+  records.sort((a,b)=>b._nd.localeCompare(a._nd));
+
+  // 날짜별 그룹
+  const groups={};
+  records.forEach(r=>{
+    const key=r._nd||'날짜 없음';
+    if(!groups[key])groups[key]=[];
+    groups[key].push(r);
+  });
+
+  let html='';
+  Object.keys(groups).sort((a,b)=>b.localeCompare(a)).forEach(key=>{
+    const sample=groups[key][0];
+    const d=new Date(key);
+    const days=['일','월','화','수','목','금','토'];
+    const label=isNaN(d.getTime())?key:(d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+days[d.getDay()]+')');
+    html+='<div class="date-group-header">📅 '+label+'</div>';
+    groups[key].forEach(r=>{ html+=buildRecCard(r,showBtns); });
+  });
+  document.getElementById(containerId).innerHTML=html;
+}
+
+function loadHistory(){
+  document.getElementById('history-list').innerHTML='<div class="placeholder">불러오는 중...</div>';
+  const todayStr=new Date(new Date().getTime()+9*60*60*1000).toISOString().split('T')[0];
+  fetch(SHEET_URL)
+    .then(res=>res.json())
+    .then(data=>{
+      // 오늘 포함 이후 날짜 + 취소 제외
+      const all=[
+        ...(data.waiting||[]).map(r=>({...r,_type:'wait'})),
+        ...(data.confirmed||[]).map(r=>({...r,_type:'confirm'})),
+        ...(data.kindergarten||[]).map(r=>({...r,_type:'kinder'}))
+      ].filter(r=>normDate(r.date)>=todayStr);
+      renderGrouped(all,'history-list',true);
+    })
+    .catch(()=>{document.getElementById('history-list').innerHTML='<div class="placeholder">불러오기 실패.</div>';});
 }
 
 function loadDone(){
@@ -813,70 +586,12 @@ function loadDone(){
       const kindergarten=(data.kindergarten||[]).map(r=>({...r,_type:'kinder'}));
       const cancelled=(data.cancelled||[]).map(r=>({...r,_type:'cancel'}));
       const all=[
-        ...[...waiting,...confirmed,...kindergarten].filter(r=>String(r.date)<todayStr),
+        ...[...waiting,...confirmed,...kindergarten].filter(r=>normDate(r.date)<todayStr),
         ...cancelled
-      ].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-      if(!all.length){document.getElementById('done-list').innerHTML='<div class="placeholder">완료된 예약이 없습니다.</div>';return;}
-      document.getElementById('done-list').innerHTML=all.map(r=>{
-        const d=new Date(r.date);
-        const days=['일','월','화','수','목','금','토'];
-        const ds=isNaN(d.getTime())?r.date:(d.getMonth()+1)+'/'+d.getDate()+'('+days[d.getDay()]+')';
-        const badge=r._type==='wait'?'<span class="badge badge-wait">대기</span>':
-          r._type==='confirm'?'<span class="badge badge-confirm">확정</span>':
-          r._type==='kinder'?'<span class="badge badge-kinder">어린이집</span>':
-          '<span class="badge badge-cancel">취소</span>';
-        const time=(r.startTime&&r.endTime)?r.startTime+'~'+r.endTime:'';
-        const people=r._type==='kinder'?'교사 '+(r.teacherCount||0)+'명 / 어린이 '+(r.childCount||0)+'명':'어른 '+(r.adultCount||0)+'명 / 아이 '+(r.kidCount||0)+'명';
-        return '<div class="rec-card">'
-          +'<div class="rec-header"><span class="rec-date">'+ds+' '+(r.day||'')+'</span>'+badge+'</div>'
-          +'<div class="rec-info">'
-          +'<div>♡ '+(r.name||'')+(r.booker?' / '+r.booker:'')+'</div>'
-          +'<div>'+(time?time+' · ':'')+people+'</div>'
-          +(r.phone?'<div>📞 '+r.phone+'</div>':'')
-          +(r.memo?'<div>📝 '+r.memo+'</div>':'')
-          +(r.staff?'<div>담당: '+r.staff+'</div>':'')
-          +'</div></div>';
-      }).join('');
+      ];
+      renderGrouped(all,'done-list',false);
     })
     .catch(()=>{document.getElementById('done-list').innerHTML='<div class="placeholder">불러오기 실패.</div>';});
-}
-
-function loadHistory(){
-  document.getElementById('history-list').innerHTML='<div class="placeholder">불러오는 중...</div>';
-  fetch(SHEET_URL)
-    .then(res=>res.json())
-    .then(data=>{
-      const all=[
-        ...(data.waiting||[]).map(r=>Object.assign({},r,{_type:'wait'})),
-        ...(data.confirmed||[]).map(r=>Object.assign({},r,{_type:'confirm'})),
-        ...(data.kindergarten||[]).map(r=>Object.assign({},r,{_type:'kinder'})),
-        ...(data.cancelled||[]).map(r=>Object.assign({},r,{_type:'cancel'}))
-      ].sort((a,b)=>String(b.date).localeCompare(String(a.date)));
-      if(!all.length){document.getElementById('history-list').innerHTML='<div class="placeholder">저장된 예약 기록이 없습니다.</div>';return;}
-      document.getElementById('history-list').innerHTML=all.map(r=>{
-        const d=new Date(r.date);
-        const days=['일','월','화','수','목','금','토'];
-        const ds=isNaN(d.getTime())?r.date:(d.getMonth()+1)+'/'+d.getDate()+'('+days[d.getDay()]+')';
-        const badge=r._type==='wait'?'<span class="badge badge-wait">대기</span>':
-          r._type==='confirm'?'<span class="badge badge-confirm">확정</span>':
-          r._type==='kinder'?'<span class="badge badge-kinder">어린이집</span>':
-          '<span class="badge badge-cancel">취소</span>';
-        const time=(r.startTime&&r.endTime)?r.startTime+'~'+r.endTime:'';
-        const people=r._type==='kinder'?'교사 '+(r.teacherCount||0)+'명 / 어린이 '+(r.childCount||0)+'명':'어른 '+(r.adultCount||0)+'명 / 아이 '+(r.kidCount||0)+'명';
-        const btns=r._type!=='cancel'?'<div class="btn-row"><button class="btn-edit" onclick="openEdit(this)">✏️ 수정</button><button class="btn-cancel-res" onclick="doCancelRes(this)">❌ 취소</button></div>':'';
-        const safeData=JSON.stringify(r).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
-        return '<div class="rec-card" data-r=\''+safeData+'\'>'+
-          '<div class="rec-header"><span class="rec-date">'+ds+' '+(r.day||'')+'</span>'+badge+'</div>'+
-          '<div class="rec-info">'+
-          '<div>♡ '+(r.name||'')+(r.booker?' / '+r.booker:'')+'</div>'+
-          '<div>'+(time?time+' · ':'')+people+'</div>'+
-          (r.phone?'<div>📞 '+r.phone+'</div>':'')+
-          (r.memo?'<div>📝 '+r.memo+'</div>':'')+
-          (r.staff?'<div>담당: '+r.staff+'</div>':'')+
-          '</div>'+btns+'</div>';
-      }).join('');
-    })
-    .catch(()=>{document.getElementById('history-list').innerHTML='<div class="placeholder">불러오기 실패.</div>';});
 }
 
 function openEdit(btn){
@@ -918,11 +633,8 @@ function saveEdit(){
   const oldName=document.getElementById('e-old-name').value;
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({type:'update_reservation',oldDate:oldDate,oldName:oldName,reservation:r})})
     .then(res=>res.json())
-    .then(d=>{if(d.status==='ok'){closeEdit();loadHistory();alert('✓ 수정됐어요!');} })
-    .catch(()=>{
-      fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'update_reservation',oldDate:oldDate,oldName:oldName,reservation:r})})
-        .then(()=>{closeEdit();loadHistory();alert('✓ 수정됐어요!');});
-    });
+    .then(d=>{if(d.status==='ok'){closeEdit();loadHistory();alert('✓ 수정됐어요!');}})
+    .catch(()=>{fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'update_reservation',oldDate:oldDate,oldName:oldName,reservation:r})}).then(()=>{closeEdit();loadHistory();alert('✓ 수정됐어요!');});});
 }
 
 function doCancelRes(btn){
@@ -931,18 +643,14 @@ function doCancelRes(btn){
   if(!confirm('♡'+(r.name||'')+'('+r.date+') 예약을 취소할까요?\n취소 기록으로 이동됩니다.'))return;
   fetch(SHEET_URL,{method:'POST',body:JSON.stringify({type:'cancel_reservation',date:r.date,name:r.name,status:r.status||''})})
     .then(res=>res.json())
-    .then(d=>{if(d.status==='ok'){loadHistory();alert('취소 처리됐어요.');} })
-    .catch(()=>{
-      fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'cancel_reservation',date:r.date,name:r.name})})
-        .then(()=>{loadHistory();alert('취소 처리됐어요!');});
-    });
+    .then(d=>{if(d.status==='ok'){loadHistory();alert('취소 처리됐어요.');}})
+    .catch(()=>{fetch(SHEET_URL,{method:'POST',mode:'no-cors',body:JSON.stringify({type:'cancel_reservation',date:r.date,name:r.name})}).then(()=>{loadHistory();alert('취소 처리됐어요!');});});
 }
 
 const _d=new Date();
 const today=new Date(_d.getTime()+9*60*60*1000).toISOString().split('T')[0];
 ['w','k'].forEach(p=>{document.getElementById(p+'-date').value=today;autoDay(p);});
 genWait();
-
 </script>
 </body>
 </html>
