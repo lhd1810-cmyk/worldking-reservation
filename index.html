@@ -103,8 +103,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <div class="field" style="grid-column:span 2;"><label>담당자</label><input type="text" id="w-staff" placeholder="이름 입력" oninput="genWait()"/></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
-        <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;"><select id="w-start-h" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option></select><select id="w-start-m" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
-        <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;"><select id="w-end-h" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option></select><select id="w-end-m" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
+        <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;">
+          <select id="w-start-h" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option>
+          </select>
+          <select id="w-start-m" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+          </select>
+        </div></div>
+        <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;">
+          <select id="w-end-h" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option>
+          </select>
+          <select id="w-end-m" onchange="genWait()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+          </select>
+        </div></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>어린이 이름</label><input type="text" id="w-kid-name" placeholder="예: 김하늘" oninput="genWait()"/></div>
@@ -169,8 +183,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
         <div class="field" style="grid-column:span 2;"><label>담당자</label><input type="text" id="k-staff" placeholder="이름 입력" oninput="genKinder()"/></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
-        <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;"><select id="k-start-h" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option></select><select id="k-start-m" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
-        <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;"><select id="k-end-h" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option></select><select id="k-end-m" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
+        <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;">
+          <select id="k-start-h" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option>
+          </select>
+          <select id="k-start-m" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+          </select>
+        </div></div>
+        <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;">
+          <select id="k-end-h" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option>
+          </select>
+          <select id="k-end-m" onchange="genKinder()" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+            <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+          </select>
+        </div></div>
       </div>
       <div class="g2" style="margin-bottom:10px;">
         <div class="field"><label>어린이집/유치원 이름</label><input type="text" id="k-name" placeholder="예: 햇살어린이집" oninput="genKinder()"/></div>
@@ -231,8 +259,22 @@ body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text
       <div class="field"><label>요일</label><select id="e-day"><option>월요일</option><option>화요일</option><option>수요일</option><option>목요일</option><option>금요일</option><option>토요일</option><option>일요일</option></select></div>
     </div>
     <div class="g2" style="margin-bottom:10px;">
-      <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;"><select id="e-start-h" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option></select><select id="e-start-m" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
-      <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;"><select id="e-end-h" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option></select><select id="e-end-m" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;"><option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option></select></div></div>
+      <div class="field"><label>시작 시간</label><div style="display:flex;gap:6px;">
+        <select id="e-start-h" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+          <option value="09">오전 9시</option><option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option>
+        </select>
+        <select id="e-start-m" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+          <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+        </select>
+      </div></div>
+      <div class="field"><label>종료 시간</label><div style="display:flex;gap:6px;">
+        <select id="e-end-h" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+          <option value="10">오전 10시</option><option value="11">오전 11시</option><option value="12">오후 12시</option><option value="13">오후 1시</option><option value="14">오후 2시</option><option value="15">오후 3시</option><option value="16">오후 4시</option><option value="17">오후 5시</option><option value="18">오후 6시</option><option value="19">오후 7시</option><option value="20">오후 8시</option><option value="21">오후 9시</option>
+        </select>
+        <select id="e-end-m" style="flex:1;font-size:15px;padding:10px 6px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--gray-bg);font-family:inherit;-webkit-appearance:none;min-width:0;">
+          <option value="00">00분</option><option value="05">05분</option><option value="10">10분</option><option value="15">15분</option><option value="20">20분</option><option value="25">25분</option><option value="30">30분</option><option value="35">35분</option><option value="40">40분</option><option value="45">45분</option><option value="50">50분</option><option value="55">55분</option>
+        </select>
+      </div></div>
     </div>
     <div class="g2" style="margin-bottom:10px;">
       <div class="field"><label>이름</label><input type="text" id="e-name"/></div>
@@ -320,24 +362,18 @@ function getDateStr(v){
   return (d.getMonth()+1)+'월 '+d.getDate()+'일';
 }
 
-// 날짜 문자열을 YYYY-MM-DD 형식으로 정규화 (Date 객체, 한국어 형식 등 모두 처리)
 function normDate(raw){
   if(!raw)return '';
   const s=String(raw).trim();
-  // 이미 YYYY-MM-DD
   if(/^\d{4}-\d{2}-\d{2}$/.test(s))return s;
-  // Date 객체가 문자열로 직렬화된 경우 (예: "2025-03-28T00:00:00.000Z")
   if(s.includes('T')){
     const d=new Date(s);
     if(!isNaN(d.getTime())){
-      // KST 보정 (+9h)
       const kst=new Date(d.getTime()+9*60*60*1000);
       return kst.toISOString().split('T')[0];
     }
   }
-  // "2025/03/28" 형식
   if(/^\d{4}\/\d{2}\/\d{2}$/.test(s))return s.replace(/\//g,'-');
-  // 기타 파싱 시도
   const d=new Date(s);
   if(!isNaN(d.getTime()))return d.toISOString().split('T')[0];
   return s;
@@ -469,7 +505,6 @@ function buildRecCard(r,showBtns){
   const time=(r.startTime&&r.endTime)?r.startTime+'~'+r.endTime:'';
   const people=r._type==='kinder'?'교사 '+(r.teacherCount||0)+'명 / 어린이 '+(r.childCount||0)+'명':'어른 '+(r.adultCount||0)+'명 / 아이 '+(r.kidCount||0)+'명';
   const btns=showBtns&&r._type!=='cancel'?'<div class="btn-row"><button class="btn-edit" onclick="openEdit(this)">✏️ 수정</button><button class="btn-cancel-res" onclick="doCancelRes(this)">❌ 취소</button></div>':'';
-  // r에 정규화된 날짜 포함
   const safeData=JSON.stringify({...r,date:nd||r.date}).replace(/\\/g,'\\\\').replace(/'/g,"\\'");
   return '<div class="rec-card" data-r=\''+safeData+'\'>'+
     '<div class="rec-header"><span class="rec-date">'+ds+' '+(r.day||'')+'</span>'+badge+'</div>'+
@@ -487,21 +522,16 @@ function renderGrouped(records, containerId, showBtns){
     document.getElementById(containerId).innerHTML='<div class="placeholder">기록이 없습니다.</div>';
     return;
   }
-  // 날짜 정규화 + 내림차순 정렬 (최신순)
   records.forEach(r=>r._nd=normDate(r.date)||'');
   records.sort((a,b)=>a._nd.localeCompare(b._nd));
-
-  // 날짜별 그룹
   const groups={};
   records.forEach(r=>{
     const key=r._nd||'날짜 없음';
     if(!groups[key])groups[key]=[];
     groups[key].push(r);
   });
-
   let html='';
   Object.keys(groups).sort((a,b)=>a.localeCompare(b)).forEach(key=>{
-    const sample=groups[key][0];
     const d=new Date(key);
     const days=['일','월','화','수','목','금','토'];
     const label=isNaN(d.getTime())?key:(d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일 ('+days[d.getDay()]+')');
@@ -517,7 +547,6 @@ function loadHistory(){
   fetch(SHEET_URL)
     .then(res=>res.json())
     .then(data=>{
-      // 오늘 포함 이후 날짜 + 취소 제외
       const all=[
         ...(data.waiting||[]).map(r=>({...r,_type:'wait'})),
         ...(data.confirmed||[]).map(r=>({...r,_type:'confirm'})),
@@ -562,7 +591,6 @@ function openEdit(btn){
   document.getElementById('e-memo').value=r.memo||'';
   document.getElementById('e-old-date').value=r.date||'';
   document.getElementById('e-old-name').value=r.name||'';
-  // 인원 채우기
   const isKinder=r._type==='kinder'||r.category==='어린이집'||r.category==='유치원';
   document.getElementById('e-general-people').style.display=isKinder?'none':'grid';
   document.getElementById('e-kinder-people').style.display=isKinder?'grid':'none';
